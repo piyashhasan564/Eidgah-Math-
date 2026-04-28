@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ঈদগাহ মাঠ উন্নয়ন তহবিল</title>
     
-    <!-- গুগল ফন্ট ও ফন্ট-অসাম -->
+  <!-- গুগল ফন্ট ও ফন্ট-অসাম -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- সবচেয়ে স্টাইলিশ ও পেঁচানো ফন্ট (Galada) -->
+    <link href="https://fonts.googleapis.com/css2?family=Galada&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -76,11 +79,21 @@
         .user-profile-bar .user-info { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
         .logout-btn { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 20px; cursor: pointer; font-size: 11px; }
 
-        .header-title { 
-    font-size: 24px; 
-    margin: 18px 0 55px 0; /* লেখার উপরে ১৮px এবং নিচে ৩০px ফাঁকা জায়গা দেওয়া হয়েছে, যাতে ব্যাকগ্রাউন্ড বড় দেখায় */
-    font-weight: 800; 
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6); 
+       .header-title { 
+    font-family: 'Galada', cursive; /* নতুন স্টাইলিশ ফন্ট */
+    font-size: 34px; /* ফন্ট সাইজ একটু বড় করা হয়েছে */
+    margin: 20px 0 55px 0; 
+    font-weight: normal; 
+    color: #fde047; /* সোনালী কালার */
+    letter-spacing: 1px;
+    
+    /* 3D বর্ডার এবং গ্লো ইফেক্ট */
+    text-shadow: 
+        2px 2px 0px #064e3b,   
+        -1px -1px 0px #064e3b,
+        1px -1px 0px #064e3b,
+        -1px 1px 0px #064e3b,
+        0px 8px 15px rgba(0, 0, 0, 0.8); 
 }
         .tab-menu { display: flex; justify-content: center; gap: 10px; max-width: 600px; margin: 0 auto; }
         .tab-btn { background: rgba(255, 255, 255, 0.1); border: none; color: white; padding: 12px 20px; font-family: inherit; font-size: 16px; font-weight: 600; border-radius: 10px 10px 0 0; cursor: pointer; transition: 0.3s; flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; }
@@ -224,7 +237,7 @@
                 <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগআউট</button>
             </div>
 
-            <h1 class="header-title">কেন্দ্রীয় ঈদগাহ মাঠ তহবিল</h1>
+            <h1 class="header-title"><span style="color: #ffffff;">কোনাগাঁতী কেন্দ্রীয়</span> ঈদগাহ মাঠ <span style="color: #ffffff;">তহবিল</span></h1>
             
             <div class="tab-menu">
                 <button class="tab-btn active" onclick="openTab('home', this)">
