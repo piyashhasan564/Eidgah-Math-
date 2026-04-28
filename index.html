@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ঈদগাহ মাঠ উন্নয়ন তহবিল</title>
+    
+    <!-- গুগল ফন্ট ও ফন্ট-অসাম -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary: #047857;
+            --primary-dark: #064e3b;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        /* --- Auth Section Styles --- */
+        #authSection {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(rgba(4, 120, 87, 0.8), rgba(6, 78, 59, 0.9)), url('https://i.ibb.co.com/FksThvNz/20260427-041245.png') center/cover;
+        }
+        .auth-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .auth-title { color: var(--primary); font-size: 24px; margin-bottom: 5px; font-weight: 700; }
+        .auth-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+        .auth-toggle { color: var(--primary); cursor: pointer; font-weight: bold; text-decoration: underline; }
+
+        /* হেডার ও নেভিগেশন */
+        .app-header {
+    background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(4, 120, 87, 0.75)), url('https://i.ibb.co.com/FksThvNz/20260427-041245.png') center/cover;
+    color: white;
+    padding: 6px 15px 0 15px; /* উপরের প্যাডিং কমিয়ে ৬px করা হয়েছে, যাতে প্রোফাইল উপরে যায় */
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+        .user-profile-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.1); 
+            padding: 5px 10px; /* ব্লার বক্সের সাইজ/প্যাডিং কমানো হয়েছে */
+            border-radius: 30px;
+            max-width: 600px; 
+            margin: 0 auto 10px auto; 
+            backdrop-filter: blur(3px); /* ব্লারের পরিমাণ কিছুটা কমানো হয়েছে */
+        }
+        .user-profile-bar img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; object-fit: cover;}
+        .user-profile-bar .user-info { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+        .logout-btn { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 20px; cursor: pointer; font-size: 11px; }
+
+        .header-title { 
+    font-size: 24px; 
+    margin: 18px 0 55px 0; /* লেখার উপরে ১৮px এবং নিচে ৩০px ফাঁকা জায়গা দেওয়া হয়েছে, যাতে ব্যাকগ্রাউন্ড বড় দেখায় */
+    font-weight: 800; 
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6); 
+}
+        .tab-menu { display: flex; justify-content: center; gap: 10px; max-width: 600px; margin: 0 auto; }
+        .tab-btn { background: rgba(255, 255, 255, 0.1); border: none; color: white; padding: 12px 20px; font-family: inherit; font-size: 16px; font-weight: 600; border-radius: 10px 10px 0 0; cursor: pointer; transition: 0.3s; flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .tab-btn.active { background: var(--bg-color); color: var(--primary-dark); }
+
+        .container { max-width: 900px; margin: 30px auto; padding: 0 15px; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: var(--card-bg); border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); margin-bottom: 25px; }
+        .card-title { font-size: 20px; color: var(--primary-dark); margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; }
+        
+        .progress-wrapper { background: #e2e8f0; height: 24px; border-radius: 30px; overflow: hidden; margin-top: 15px;}
+        .progress-fill { background: linear-gradient(90deg, var(--accent), #fbbf24); height: 100%; width: 0%; border-radius: 30px; transition: 1.2s ease; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: #1e293b; }
+
+        .payment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .payment-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; text-align: center;}
+        
+        /* Form */
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 15px; font-weight: 700; color: #1e293b; }
+        .form-control { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; background-color: #f8fafc; font-family: inherit; font-size: 15px; box-sizing: border-box; }
+        .form-control:focus { outline: none; border-color: var(--primary); background-color: #ffffff; }
+        .btn-submit { width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent-hover)); color: white; border: none; padding: 15px; font-size: 18px; font-weight: 700; border-radius: 10px; cursor: pointer; transition: 0.3s;}
+        
+        /* Lists & Leaderboard */
+        .list-container { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 768px) { .list-container.has-target { grid-template-columns: 1fr 1fr; } }
+        
+        .donor-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 10px; }
+        .donor-info { display: flex; align-items: center; gap: 15px; }
+        .donor-avatar { width: 45px; height: 45px; border-radius: 50%; background: #e2e8f0; object-fit: cover; }
+        .donor-details h4 { margin: 0 0 4px 0; font-size: 16px; display: flex; align-items: center; gap: 5px;}
+        .donor-amount { font-size: 18px; font-weight: 700; color: var(--primary); }
+
+        /* Top 3 Styles */
+        .top-1 { background: linear-gradient(to right, #fffdf0, #fff8c2); border-color: #fbbf24; box-shadow: 0 4px 10px rgba(251, 191, 36, 0.2);}
+        .top-2 { background: linear-gradient(to right, #f8fafc, #e2e8f0); border-color: #cbd5e1; }
+        .top-3 { background: linear-gradient(to right, #fff7ed, #ffedd5); border-color: #fdba74; }
+        .crown-1 { color: #eab308; } .crown-2 { color: #94a3b8; } .crown-3 { color: #d97706; }
+
+        .announcement-box { background: #ffffff; border-radius: 16px; padding: 35px 25px 25px 25px; margin-top: 30px; margin-bottom: 25px; border: 1px solid #e2e8f0; border-bottom: 5px solid var(--primary); position: relative; text-align: center; }
+        .announcement-icon { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; border: 4px solid var(--bg-color); }
+        .copy-btn { background: #e2e8f0; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; color: var(--primary); }
+        /* টার্গেট পপআপ বাটন */
+        .btn-target-popup {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+        .btn-target-popup:hover { transform: scale(1.05); }
+        /* --- New Podium Leaderboard Styles --- */
+.podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin: 30px 0 20px; padding-top: 20px; }
+.podium-box { display: flex; flex-direction: column; align-items: center; width: 32%; position: relative; }
+.podium-avatar { border-radius: 50%; object-fit: cover; border: 3px solid #fbbf24; z-index: 2; position: relative; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
+.podium-name { font-size: 13px; font-weight: 700; color: #1e293b; text-align: center; margin: 8px 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+.podium-amount { background: #475569; color: #fbbf24; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; margin-bottom: -10px; z-index: 3;}
+.podium-base { width: 100%; border-radius: 12px 12px 0 0; display: flex; justify-content: center; align-items: center; font-size: 28px; font-weight: 900; color: white; text-shadow: 1px 2px 4px rgba(0,0,0,0.2); box-shadow: inset 0 4px 6px rgba(255,255,255,0.3); }
+
+/* Rank Specific Heights & Colors */
+.rank-1 .podium-base { height: 110px; background: linear-gradient(180deg, #f59e0b, #d97706); }
+.rank-2 .podium-base { height: 80px; background: linear-gradient(180deg, #fbbf24, #f59e0b); }
+.rank-3 .podium-base { height: 55px; background: linear-gradient(180deg, #fcd34d, #fbbf24); }
+
+.rank-1 .podium-avatar { width: 75px; height: 75px; border-color: #f59e0b; margin-top: -30px; }
+.rank-2 .podium-avatar { width: 60px; height: 60px; margin-top: -20px; }
+.rank-3 .podium-avatar { width: 60px; height: 60px; border-color: #fcd34d; margin-top: -20px; }
+
+/* Normal List (Rank 4+) */
+.normal-list-container { margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 10px; }
+.normal-list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid #f1f5f9; transition: background 0.3s; border-radius: 8px;}
+.normal-list-item:hover { background: #f8fafc; }
+.n-rank { font-weight: 800; color: #94a3b8; width: 25px; font-size: 15px; }
+        
+        
+    </style>
+</head>
+<body>
+
+    <!-- ================= AUTH SECTION ================= -->
+    <div id="authSection">
+        <!-- Login Form -->
+        <div class="auth-card" id="loginCard">
+            <h2 class="auth-title">লগইন করুন</h2>
+            <p class="auth-subtitle">আপনার অনুদান হিসাব রাখতে লগইন করুন</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>মোবাইল নম্বর</label>
+                    <input type="tel" id="loginMobile" class="form-control" required placeholder="উদাহরণ: ০১৭XXXXXXXX">
+                </div>
+                <button type="submit" class="btn-submit" id="loginBtn">লগইন করুন</button>
+            </form>
+            <p style="margin-top: 20px; font-size: 14px;">নতুন দাতা? <span class="auth-toggle" onclick="toggleAuth('register')">রেজিস্ট্রেশন করুন</span></p>
+        </div>
+
+        <!-- Register Form -->
+        <div class="auth-card" id="registerCard" style="display: none;">
+            <h2 class="auth-title">রেজিস্ট্রেশন</h2>
+            <p class="auth-subtitle">একবার রেজিস্ট্রেশন করে আজীবন ব্যবহার করুন</p>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>আপনার পূর্ণ নাম</label>
+                    <input type="text" id="regName" class="form-control" required placeholder="আপনার নাম লিখুন">
+                </div>
+                <div class="form-group">
+                    <label>মোবাইল নম্বর (লগইন আইডি)</label>
+                    <input type="tel" id="regMobile" class="form-control" required placeholder="০১৭XXXXXXXX">
+                </div>
+                <div class="form-group">
+                    <label>আপনার ছবি</label>
+                    <input type="file" id="regImage" accept="image/*" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-submit" id="registerBtn">রেজিস্ট্রেশন করুন</button>
+            </form>
+            <p style="margin-top: 20px; font-size: 14px;">আগে থেকে অ্যাকাউন্ট আছে? <span class="auth-toggle" onclick="toggleAuth('login')">লগইন করুন</span></p>
+        </div>
+    </div>
+
+
+    <!-- ================= MAIN APP SECTION ================= -->
+    <div id="mainApp" style="display: none;">
+        
+        <header class="app-header">
+            <!-- User Profile Bar -->
+            <div class="user-profile-bar">
+                <div class="user-info">
+                    <img id="navUserPic" src="" alt="User">
+                    <span id="navUserName">...</span>
+                </div>
+                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগআউট</button>
+            </div>
+
+            <h1 class="header-title">কেন্দ্রীয় ঈদগাহ মাঠ তহবিল</h1>
+            
+            <div class="tab-menu">
+                <button class="tab-btn active" onclick="openTab('home', this)">
+                    <i class="fas fa-home"></i> <span>হোম</span>
+                </button>
+                <button class="tab-btn" onclick="openTab('donate', this)">
+                    <i class="fas fa-hand-holding-heart"></i> <span>অনুদান</span>
+                </button>
+                <button class="tab-btn" onclick="openTab('donors', this)">
+                    <i class="fas fa-list"></i> <span>লিস্ট</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="container">
+            
+            <!-- ১. হোম ট্যাব -->
+            <div id="home" class="tab-content active">
+                <div class="announcement-box">
+                    <div class="announcement-icon"><i class="fas fa-bell"></i></div>
+                    <h3 class="card-title" style="justify-content:center; border:none; margin-bottom:5px;">সাধারণ বিজ্ঞপ্তি</h3>
+                    <div id="fundMessage" style="font-size: 13px; line-height: 1.5; color: #475569; white-space: pre-line; text-align: center; padding: 0 1px;">লোড হচ্ছে...</div>
+                </div>
+
+                <div class="card" id="fundStatusCard">
+                    <h2 class="card-title" id="fundCardTitle"><i class="fas fa-chart-pie"></i> বর্তমান ফান্ড অবস্থা</h2>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div id="targetBox" style="text-align: left;">
+                            <span id="targetReasonText" style="font-size: 12px; color: var(--text-muted); font-weight: bold;">লক্ষ্যমাত্রা</span><br>
+                            <strong id="targetAmountText" style="font-size: 20px; color: var(--primary);">লোড হচ্ছে...</strong>
+                        </div>
+                        <div id="raisedBox" style="text-align: right;">
+                            <span style="font-size: 12px; color: var(--text-muted);">সর্বমোট সংগ্রহ</span><br>
+                            <strong id="raisedAmountText" style="font-size: 20px; color: var(--primary);">হিসাব হচ্ছে...</strong>
+                        </div>
+                    </div>
+                    <div class="progress-wrapper" id="progressWrapper">
+                        <div class="progress-fill" id="progressBar">০%</div>
+                    </div>
+                    <div id="generalFundMsg" style="display: none; text-align: center; margin-top: 15px; color: var(--primary-dark); font-weight: 600; background: #e2e8f0; padding: 10px; border-radius: 8px;">
+                        আলহামদুলিল্লাহ, লক্ষ্যমাত্রার কাজ সম্পন্ন হয়েছে। এখন মূল তহবিলে অনুদান জমা হচ্ছে।
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-wallet"></i> যেভাবে টাকা পাঠাবেন</h2>
+                    <div class="payment-grid">
+                        <div class="payment-box">
+                            <img src="https://freelogopng.com/images/all_img/1656234745bkash-app-logo-png.png" style="height:35px; margin-bottom:5px;">
+                            <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
+                                <b id="bkashNumShow">...</b>
+                                <button class="copy-btn" onclick="copyNum('bkashNumShow', this)"><i class="far fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div class="payment-box">
+                            <img src="https://freelogopng.com/images/all_img/1679248787Nagad-Logo.png" style="height:35px; margin-bottom:5px;">
+                            <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
+                                <b id="nagadNumShow">...</b>
+                                <button class="copy-btn" onclick="copyNum('nagadNumShow', this)"><i class="far fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div class="payment-box">
+                            <img src="https://i.ibb.co.com/7x267kjS/1773517273822.png" style="height:35px; margin-bottom:5px;">
+                            <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
+                                <b id="rocketNumShow">...</b>
+                                <button class="copy-btn" onclick="copyNum('rocketNumShow', this)"><i class="far fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ২. অনুদান দিন ট্যাব -->
+            <div id="donate" class="tab-content">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-paper-plane"></i> অনুদান প্রদান করুন</h2>
+                    <div style="background: #f0fdf4; padding: 12px; border-left: 4px solid var(--primary); border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
+                        <i class="fas fa-user-check"></i> <span id="donateAsName">...</span> হিসেবে অনুদান দিচ্ছেন।
+                    </div>
+                    
+                    <form id="donationForm">
+                        <div class="form-group">
+                            <label><i class="fas fa-money-bill-wave"></i> টাকার পরিমাণ (৳)</label>
+                            <input type="number" id="donationAmount" class="form-control" required placeholder="ইংরেজিতে লিখুন (যেমন: 5000)">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-wallet"></i> পাঠানোর মাধ্যম</label>
+                            <select id="paymentMethod" class="form-control">
+                                <option value="বিকাশ">বিকাশ</option>
+                                <option value="নগদ">নগদ</option>
+                                <option value="রকেট">রকেট</option>
+                                <option value="ক্যাশ">সরাসরি ক্যাশ</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="trxGroup">
+                            <label><i class="fas fa-hashtag"></i> TrxID / যে নম্বর থেকে পাঠিয়েছেন</label>
+                            <input type="text" id="trxId" class="form-control" required placeholder="যাচাইয়ের জন্য দিন">
+                        </div>
+                        <button type="submit" class="btn-submit" id="donateBtn"><i class="fas fa-check-circle"></i> জমা দিন</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ৩. ডোনার লিস্ট ট্যাব -->
+            <div id="donors" class="tab-content">
+                <div class="list-container" id="listLayout">
+                    
+                    <!-- Main Leaderboard -->
+                    <div class="card">
+                        <!-- হেডার ও বাটন -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 20px;">
+                            <h2 class="card-title" style="border:none; padding:0; margin:0;"><i class="fas fa-trophy text-amber-500"></i> মূল দাতা তালিকা</h2>
+                            
+                            <!-- পপআপ বাটন (লক্ষ্যমাত্রা চালু থাকলে দেখাবে) -->
+                            <button id="showTargetBtn" class="btn-target-popup" style="display: none;" onclick="showTargetPopup()">
+                                <i class="fas fa-bullseye"></i> লক্ষ্যমাত্রা
+                            </button>
+                        </div>
+
+                        <div id="mainDonorList">
+                            <div style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- UI Logic -->
+    <script>
+        function openTab(tabName, elmnt) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            elmnt.classList.add('active');
+        }
+
+        function toggleAuth(type) {
+            if(type === 'register') {
+                document.getElementById('loginCard').style.display = 'none';
+                document.getElementById('registerCard').style.display = 'block';
+            } else {
+                document.getElementById('loginCard').style.display = 'block';
+                document.getElementById('registerCard').style.display = 'none';
+            }
+        }
+
+        document.getElementById('paymentMethod').addEventListener('change', function() {
+            const trxInput = document.getElementById('trxId');
+            if (this.value === 'ক্যাশ') {
+                document.getElementById('trxGroup').style.display = 'none';
+                trxInput.removeAttribute('required');
+                trxInput.value = '';
+            } else {
+                document.getElementById('trxGroup').style.display = 'block';
+                trxInput.setAttribute('required', 'true');
+            }
+        });
+    </script>
+
+    <!-- Firebase System -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        
+const firebaseConfig = {
+  apiKey: "AIzaSyCRNQ7XYOyNzH87GEGWl3KfqheXrsJ7j2c",
+  authDomain: "eidgah-509af.firebaseapp.com",
+  projectId: "eidgah-509af",
+  storageBucket: "eidgah-509af.firebasestorage.app",
+  messagingSenderId: "622747164578",
+  appId: "1:622747164578:web:3b794e9a7d064d2553dcfb",
+  measurementId: "G-VE5ER4RZLW"
+};
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Global Variables
+        let currentUser = null;
+        let isTargetActive = true; 
+        let targetAmount = 1;
+        let currentTargetSessionId = null; // নতুন ভেরিয়েবল
+
+        // --- Helpers ---
+        const engToBdNum = str => str.toString().replace(/[0-9]/g, w => ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'][w]);
+
+        // --- Auth Check ---
+        function checkAuth() {
+            const savedUser = localStorage.getItem('eidgahUser');
+            if(savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showMainApp();
+            } else {
+                document.getElementById('authSection').style.display = 'flex';
+                document.getElementById('mainApp').style.display = 'none';
+            }
+        }
+
+        function showMainApp() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            document.getElementById('navUserName').innerText = currentUser.name;
+            document.getElementById('navUserPic').src = currentUser.photo;
+            document.getElementById('donateAsName').innerText = currentUser.name;
+        }
+
+        window.logout = function() {
+            localStorage.removeItem('eidgahUser');
+            location.reload();
+        };
+
+        // --- Image Compression (ImgBB) ---
+        function compressImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = event => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let w = img.width, h = img.height;
+                        if(w > 400) { h = Math.round(h * 400/w); w = 400; }
+                        canvas.width = w; canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        canvas.toBlob(blob => resolve(blob), 'image/jpeg', 0.6);
+                    };
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // --- Login Logic ---
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const mobile = document.getElementById('loginMobile').value.trim();
+            const btn = document.getElementById('loginBtn');
+            btn.innerText = "যাচাই করা হচ্ছে..."; btn.disabled = true;
+
+            try {
+                const docRef = doc(db, "users", mobile);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    localStorage.setItem('eidgahUser', JSON.stringify(docSnap.data()));
+                    location.reload();
+                } else {
+                    Swal.fire('ভুল নাম্বার', 'এই নাম্বারে কোনো অ্যাকাউন্ট পাওয়া যায়নি। দয়া করে রেজিস্ট্রেশন করুন।', 'error');
+                }
+            } catch(err) {
+                Swal.fire('ত্রুটি', 'সার্ভার সমস্যা, আবার চেষ্টা করুন।', 'error');
+            }
+            btn.innerText = "লগইন করুন"; btn.disabled = false;
+        });
+
+        // --- Registration Logic ---
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const mobile = document.getElementById('regMobile').value.trim();
+            const file = document.getElementById('regImage').files[0];
+            // --- নতুন যোগ করা ভ্যালিডেশন ---
+if (!file) {
+    Swal.fire('সতর্কতা', 'দয়া করে একটি ছবি সিলেক্ট করুন।', 'warning');
+    return;
+}
+            const btn = document.getElementById('registerBtn');
+            
+            btn.innerText = "অপেক্ষা করুন..."; btn.disabled = true;
+
+            try {
+                const docSnap = await getDoc(doc(db, "users", mobile));
+                if (docSnap.exists()) {
+                    Swal.fire('সতর্কতা', 'এই নাম্বারে আগে থেকেই অ্যাকাউন্ট আছে। লগইন করুন।', 'warning');
+                    btn.innerText = "রেজিস্ট্রেশন করুন"; btn.disabled = false;
+                    return;
+                }
+
+                btn.innerText = "ছবি আপলোড হচ্ছে...";
+                const compressedBlob = await compressImage(file);
+                const formData = new FormData();
+                formData.append('image', compressedBlob, 'avatar.jpg');
+                const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=2c15582c6548f043b824081421986562`, { method: 'POST', body: formData });
+                const imgData = await imgbbResponse.json();
+                const photoUrl = imgData.data.url;
+
+                btn.innerText = "অ্যাকাউন্ট তৈরি হচ্ছে...";
+                const userData = { name, mobile, photo: photoUrl, createdAt: new Date() };
+                await setDoc(doc(db, "users", mobile), userData);
+
+                localStorage.setItem('eidgahUser', JSON.stringify(userData));
+                Swal.fire('সফল!', 'রেজিস্ট্রেশন সম্পন্ন হয়েছে।', 'success').then(() => location.reload());
+
+            } catch(err) {
+                console.error(err);
+                Swal.fire('ত্রুটি', 'রেজিস্ট্রেশন ব্যর্থ হয়েছে।', 'error');
+                btn.innerText = "রেজিস্ট্রেশন করুন"; btn.disabled = false;
+            }
+        });
+
+        /// --- Settings Listener (Real-time) ---
+        onSnapshot(doc(db, "settings", "general_settings"), (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('bkashNumShow').innerText = data.bkash || "সেট নেই";
+                document.getElementById('nagadNumShow').innerText = data.nagad || "সেট নেই";
+                document.getElementById('rocketNumShow').innerText = data.rocket || "সেট নেই";
+                document.getElementById('fundMessage').innerText = data.message || "পবিত্র নির্মাণ কাজে অংশগ্রহণ করুন।";
+                
+                targetAmount = Number(data.target) || 1;
+                document.getElementById('targetAmountText').innerText = '৳' + engToBdNum(targetAmount.toLocaleString());
+                
+                // লক্ষ্যমাত্রার নাম সেট করা
+                window.targetReasonGlobal = data.targetReason || "লক্ষ্যমাত্রা";
+                document.getElementById('targetReasonText').innerText = window.targetReasonGlobal;
+                
+                isTargetActive = data.showTargetProgress !== false;
+                currentTargetSessionId = data.targetSessionId || null; 
+                
+                if (isTargetActive) {
+                    document.getElementById('targetBox').style.display = 'block';
+                    document.getElementById('progressWrapper').style.display = 'block';
+                    document.getElementById('generalFundMsg').style.display = 'none';
+                    document.getElementById('raisedBox').style.textAlign = 'right';
+                    document.getElementById('showTargetBtn').style.display = 'flex';
+                } else {
+                    document.getElementById('targetBox').style.display = 'none';
+                    document.getElementById('progressWrapper').style.display = 'none';
+                    document.getElementById('generalFundMsg').style.display = 'block';
+                    document.getElementById('raisedBox').style.textAlign = 'center';
+                    document.getElementById('raisedBox').style.width = '100%';
+                    document.getElementById('showTargetBtn').style.display = 'none';
+                }
+            }
+        });
+
+        // --- Donation Submission ---
+        document.getElementById('donationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('donateBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...'; btn.disabled = true;
+
+            const amount = parseInt(document.getElementById('donationAmount').value);
+            // --- নতুন যোগ করা ভ্যালিডেশন ---
+if (isNaN(amount) || amount <= 0) {
+    Swal.fire('সতর্কতা!', 'দয়া করে সঠিক টাকার পরিমাণ লিখুন।', 'warning');
+    btn.innerHTML = '<i class="fas fa-check-circle"></i> জমা দিন'; 
+    btn.disabled = false;
+    return;
+}
+            const method = document.getElementById('paymentMethod').value;
+            const trxId = document.getElementById('trxId').value;
+
+            try {
+                await addDoc(collection(db, "donations"), {
+                    name: currentUser.name,
+                    mobile: currentUser.mobile,
+                    photo: currentUser.photo,
+                    amount: amount,
+                    method: method,
+                    trxId: trxId || "ক্যাশ পেমেন্ট",
+                    timestamp: new Date(),
+                    status: "pending",
+                    isTargetDonation: isTargetActive, 
+                    targetSessionId: isTargetActive ? currentTargetSessionId : null // কোন সেশনে টাকা দিলো তা সেভ হবে
+                });
+
+                Swal.fire('আলহামদুলিল্লাহ!', 'আপনার অনুদানের তথ্য জমা হয়েছে। অ্যাডমিন যাচাই করার পর লিস্টে যোগ হবে।', 'success').then(() => {
+                    document.getElementById('donationForm').reset();
+                    document.querySelector('.tab-menu button:nth-child(3)').click();
+                });
+            } catch(err) {
+                Swal.fire('দুঃখিত', 'তথ্য জমা দেওয়া যায়নি।', 'error');
+            }
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> জমা দিন'; btn.disabled = false;
+        });
+
+        // --- Listen to Donations & Build Leaderboards ---
+        window.targetHtmlData = ""; // গ্লোবাল ভেরিয়েবল পপআপের ডাটা রাখার জন্য
+
+        onSnapshot(query(collection(db, "donations")), (snapshot) => {
+            let totalRaised = 0;
+            let targetRaised = 0; 
+            const userGroups = {};
+
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                if(d.status !== 'approved') return;
+
+                totalRaised += d.amount;
+
+                if(!userGroups[d.mobile]) {
+                    userGroups[d.mobile] = {
+                        name: d.name, mobile: d.mobile, photo: d.photo,
+                        totalAmount: 0, targetAmount: 0
+                    };
+                }
+                userGroups[d.mobile].totalAmount += d.amount;
+                
+                // শুধুমাত্র বর্তমান সেশনের লক্ষ্যমাত্রার টাকাগুলো হিসাব হবে
+                if(d.isTargetDonation === true && d.targetSessionId === currentTargetSessionId) {
+                    targetRaised += d.amount;
+                    userGroups[d.mobile].targetAmount += d.amount;
+                }
+            });
+
+            // Update Progress Bar
+            let percent = 0;
+            if(targetAmount > 0){ percent = (targetRaised / targetAmount) * 100; }
+            if(percent > 100) percent = 100;
+            
+            if (isTargetActive) {
+                document.querySelector('#raisedBox span').innerText = "লক্ষ্যমাত্রায় সংগ্রহ";
+                document.getElementById('raisedAmountText').innerText = '৳' + engToBdNum(targetRaised.toLocaleString());
+            } else {
+                document.querySelector('#raisedBox span').innerText = "সর্বমোট সংগ্রহ";
+                document.getElementById('raisedAmountText').innerText = '৳' + engToBdNum(totalRaised.toLocaleString());
+            }
+
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressBar').innerText = percent >= 5 ? engToBdNum(Math.floor(percent)) + '%' : '';
+
+            const allUsers = Object.values(userGroups);
+            const mainListArray = [...allUsers].sort((a, b) => b.totalAmount - a.totalAmount);
+            const targetListArray = allUsers.filter(u => u.targetAmount > 0).sort((a, b) => b.targetAmount - a.targetAmount);
+
+            // Render Main List (Podium Style)
+            const mainDiv = document.getElementById('mainDonorList');
+            mainDiv.innerHTML = '';
+            
+            if(mainListArray.length === 0) {
+                mainDiv.innerHTML = '<div style="text-align:center; padding:20px; color:#64748b;">কোনো অনুদান নেই।</div>';
+            } else {
+                // --- 1. টপ ৩ জনের পোডিয়াম (Podium) তৈরি ---
+                let podiumHtml = '<div class="podium-container">';
+                
+                // একটি পোডিয়াম ব্লক তৈরির ফাংশন
+                const getPodiumBlock = (user, rankCls, rankNum) => {
+                    if(!user) return '<div class="podium-box"></div>'; // যদি ৩ জনের কম ডোনার থাকে
+                    return `
+                        <div class="podium-box ${rankCls}">
+                            <img src="${user.photo}" class="podium-avatar">
+                            <div class="podium-name">${user.name}</div>
+                            <div class="podium-amount">৳${engToBdNum(user.totalAmount.toLocaleString())}</div>
+                            <div class="podium-base">${rankNum}</div>
+                        </div>
+                    `;
+                };
+
+                // সাজানোর নিয়ম: বামে ২য়, মাঝে ১ম, ডানে ৩য়
+                podiumHtml += getPodiumBlock(mainListArray[1], 'rank-2', '2');
+                podiumHtml += getPodiumBlock(mainListArray[0], 'rank-1', '1');
+                podiumHtml += getPodiumBlock(mainListArray[2], 'rank-3', '3');
+                
+                podiumHtml += '</div>';
+
+                // --- 2. বাকিদের সাধারণ লিস্ট (৪র্থ থেকে শুরু) ---
+                let listHtml = '<div class="normal-list-container">';
+                for(let i = 3; i < mainListArray.length; i++) {
+                    let u = mainListArray[i];
+                    let bdRank = engToBdNum(i + 1);
+                    listHtml += `
+                        <div class="normal-list-item">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <span class="n-rank">${bdRank}</span>
+                                <img src="${u.photo}" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0;">
+                                <span style="font-size: 15px; font-weight: 700; color: #1e293b;">${u.name}</span>
+                            </div>
+                            <div style="font-weight: 700; color: var(--primary); font-size: 16px;">
+                                <i class="fas fa-coins text-amber-500 text-sm"></i> ৳${engToBdNum(u.totalAmount.toLocaleString())}
+                            </div>
+                        </div>
+                    `;
+                }
+                listHtml += '</div>';
+
+                // সব একসাথে পেজে দেখানো
+                mainDiv.innerHTML = podiumHtml + listHtml;
+            }
+
+            // Generate HTML for Target Popup
+            let popupHtml = `<div style="font-size:13px; color:#64748b; margin-bottom:15px;">বর্তমান লক্ষ্যমাত্রায় যারা শরিক হয়েছেন (এই টাকা মূল তালিকাতেও যোগ হয়েছে)</div><div style="max-height: 50vh; overflow-y: auto; text-align: left; padding-right: 5px;">`;
+            
+            if(targetListArray.length === 0) {
+                popupHtml += '<div style="text-align:center; padding:20px; font-weight:bold;">এখনো কেউ শরিক হননি।</div>';
+            } else {
+                targetListArray.forEach(u => {
+                    popupHtml += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <img src="${u.photo}" style="width:40px; height:40px; border-radius: 50%; object-fit: cover;">
+                                <h4 style="margin: 0; font-size:15px; color: #1e293b;">${u.name}</h4>
+                            </div>
+                            <div style="font-size:16px; font-weight:700; color:#f59e0b;">৳${engToBdNum(u.targetAmount.toLocaleString())}</div>
+                        </div>
+                    `;
+                });
+            }
+            popupHtml += `</div>`;
+            window.targetHtmlData = popupHtml; // পপআপে দেখানোর জন্য সেভ করা হলো
+        });
+
+        // পপআপ ওপেন করার ফাংশন
+        window.showTargetPopup = function() {
+            Swal.fire({
+                title: `<div style="color: #d97706; font-size: 18px; font-weight: 800; line-height: 1.4;"><i class="fas fa-bullseye"></i> ${window.targetReasonGlobal}</div>`,
+                html: window.targetHtmlData,
+                showCloseButton: true,
+                showConfirmButton: false,
+                customClass: { popup: 'rounded-2xl' }
+            });
+        };
+
+        // Copy Number
+        window.copyNum = function(id, btn) {
+            const txt = document.getElementById(id).innerText;
+            if(txt.includes('লোড') || txt.includes('সেট')) return;
+            navigator.clipboard.writeText(txt).then(() => {
+                Swal.fire({icon: 'success', title: 'কপি হয়েছে!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
+            });
+        };
+
+        // Initialization
+        checkAuth();
+
+    </script>
+</body>
+</html>
