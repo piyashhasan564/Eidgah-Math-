@@ -192,7 +192,21 @@
         /* 4 Tabs Mobile Fix */
         .tab-btn { padding: 10px 5px; font-size: 14px; flex-direction: column; gap: 4px; }
         .tab-btn i { font-size: 18px; }   
-        
+        .countdown-timer {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ef4444;
+    text-align: center;
+    margin-top: 6px;
+    background: #fef2f2;
+    padding: 2px 5px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+
+
+
     </style>
 </head>
 <body>
@@ -439,7 +453,7 @@
     <!-- Firebase System -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, query, orderBy, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         
 const firebaseConfig = {
@@ -487,64 +501,135 @@ const firebaseConfig = {
             loadUserHistory();
         }
 
-        // --- নতুন: ইউজারের নিজস্ব হিস্ট্রি লোড করার ফাংশন ---
-        function loadUserHistory() {
-            const q = query(collection(db, "donations"), where("mobile", "==", currentUser.mobile));
-            
-            onSnapshot(q, (snapshot) => {
-                let historyData = [];
-                snapshot.forEach(doc => { historyData.push(doc.data()); });
+       function loadUserHistory() {
+    const q = query(collection(db, "donations"), where("mobile", "==", currentUser.mobile));
+    
+    onSnapshot(q, (snapshot) => {
+        let historyData = [];
+        const now = new Date().getTime();
+        
+        // ৩০ সেকেন্ডের বদলে ৭ দিনের হিসাব (7 days in milliseconds)
+        const waitTimeInMs = 30 * 1000;
 
-                // সময় অনুযায়ী সাজানো (নতুনটা উপরে)
-                historyData.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
+        snapshot.forEach(docSnap => { 
+            let d = docSnap.data();
+            d.id = docSnap.id; 
 
-                let html = "";
-                if (historyData.length === 0) {
-                    html = '<div style="text-align:center; color:#64748b; padding:20px; background:#f8fafc; border-radius:10px;">আপনি এখনো কোনো অনুদান করেননি।</div>';
-                } else {
-                    historyData.forEach(d => {
-                        let dateObj = d.timestamp.toDate();
-                        let dateStr = dateObj.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' });
-                        let timeStr = dateObj.toLocaleTimeString('bn-BD', { hour: '2-digit', minute:'2-digit' });
-
-                        let statusClass, statusText, statusIcon;
-                        if(d.status === 'pending') { 
-                            statusClass = 'status-pending'; statusText = 'যাচাই হচ্ছে'; statusIcon = '<i class="fas fa-clock"></i>';
-                        } else if(d.status === 'approved') { 
-                            statusClass = 'status-approved'; statusText = 'গৃহীত হয়েছে'; statusIcon = '<i class="fas fa-check-circle"></i>';
-                        } else if(d.status === 'rejected') { 
-                            statusClass = 'status-rejected'; statusText = 'বাতিল হয়েছে'; statusIcon = '<i class="fas fa-times-circle"></i>';
-                        }
-
-                        let methodIcon = d.method === 'বিকাশ' ? '<span style="color:#e2136e; font-weight:bold;">বিকাশ</span>' : 
-                                         d.method === 'নগদ' ? '<span style="color:#ed1c24; font-weight:bold;">নগদ</span>' : 
-                                         d.method === 'রকেট' ? '<span style="color:#8c1562; font-weight:bold;">রকেট</span>' : 'ক্যাশ';
-
-                        let trxInfo = d.method === 'ক্যাশ' ? 'সরাসরি জমা' : `TrxID: ${d.trxId}`;
-
-                        html += `
-                            <div class="history-item">
-                                <div class="history-details">
-                                    <div class="history-amount">৳${engToBdNum(d.amount.toLocaleString())}</div>
-                                    <div class="history-meta">
-                                        <span>${methodIcon}</span>
-                                        <span style="color:#94a3b8;">|</span>
-                                        <span>${trxInfo}</span>
-                                    </div>
-                                    <div class="history-meta" style="font-size:11px;">
-                                        <span><i class="far fa-calendar-alt"></i> ${dateStr}, ${timeStr}</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="status-badge ${statusClass}">${statusIcon} ${statusText}</div>
-                                </div>
-                            </div>
-                        `;
-                    });
+            // === অটো ডিলিট লজিক ===
+            if (d.status === 'rejected' && d.rejectedAt) {
+                let rejectTime = d.rejectedAt.toDate().getTime();
+                if (now - rejectTime > waitTimeInMs) {
+                    deleteDoc(doc(db, "donations", d.id)); 
+                    return; 
                 }
-                document.getElementById('userHistoryList').innerHTML = html;
+            }
+
+            historyData.push(d); 
+        });
+
+        // সময় অনুযায়ী সাজানো
+        historyData.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
+
+        let html = "";
+        if (historyData.length === 0) {
+            html = '<div style="text-align:center; color:#64748b; padding:20px; background:#f8fafc; border-radius:10px;">আপনি এখনো কোনো অনুদান করেননি।</div>';
+        } else {
+            historyData.forEach(d => {
+                let dateObj = d.timestamp.toDate();
+                let dateStr = dateObj.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' });
+                let timeStr = dateObj.toLocaleTimeString('bn-BD', { hour: '2-digit', minute:'2-digit' });
+
+                let statusClass, statusText, statusIcon;
+                if(d.status === 'pending') { 
+                    statusClass = 'status-pending'; statusText = 'যাচাই হচ্ছে'; statusIcon = '<i class="fas fa-clock"></i>';
+                } else if(d.status === 'approved') { 
+                    statusClass = 'status-approved'; statusText = 'গৃহীত হয়েছে'; statusIcon = '<i class="fas fa-check-circle"></i>';
+                } else if(d.status === 'rejected') { 
+                    statusClass = 'status-rejected'; statusText = 'বাতিল হয়েছে'; statusIcon = '<i class="fas fa-times-circle"></i>';
+                }
+
+                let methodIcon = d.method === 'বিকাশ' ? '<span style="color:#e2136e; font-weight:bold;">বিকাশ</span>' : 
+                                 d.method === 'নগদ' ? '<span style="color:#ed1c24; font-weight:bold;">নগদ</span>' : 
+                                 d.method === 'রকেট' ? '<span style="color:#8c1562; font-weight:bold;">রকেট</span>' : 'ক্যাশ';
+
+                let trxInfo = d.method === 'ক্যাশ' ? 'সরাসরি জমা' : `TrxID: ${d.trxId}`;
+
+                let timerHtml = "";
+                if (d.status === 'rejected' && d.rejectedAt) {
+                    let expireTime = d.rejectedAt.toDate().getTime() + waitTimeInMs;
+                    timerHtml = `<div class="countdown-timer" id="timer-${d.id}" data-expire="${expireTime}">হিসাব হচ্ছে...</div>`;
+                }
+
+                html += `
+                    <div class="history-item" id="row-${d.id}">
+                        <div class="history-details">
+                            <div class="history-amount">৳${engToBdNum(d.amount.toLocaleString())}</div>
+                            <div class="history-meta">
+                                <span>${methodIcon}</span>
+                                <span style="color:#94a3b8;">|</span>
+                                <span>${trxInfo}</span>
+                            </div>
+                            <div class="history-meta" style="font-size:11px;">
+                                <span><i class="far fa-calendar-alt"></i> ${dateStr}, ${timeStr}</span>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="status-badge ${statusClass}">${statusIcon} ${statusText}</div>
+                            ${timerHtml}
+                        </div>
+                    </div>
+                `;
             });
         }
+        document.getElementById('userHistoryList').innerHTML = html;
+        
+        // লাইভ টাইমার চালু করা
+        startLiveCountdown();
+    });
+}
+
+// --- স্মার্ট লাইভ কাউন্টডাউন (দিন, ঘণ্টা, মিনিট, সেকেন্ড) ---
+function startLiveCountdown() {
+    if (window.activeCountdownInterval) clearInterval(window.activeCountdownInterval);
+
+    window.activeCountdownInterval = setInterval(() => {
+        let timers = document.querySelectorAll('.countdown-timer');
+        
+        timers.forEach(timerEl => {
+            let expireTime = parseInt(timerEl.getAttribute('data-expire'));
+            let now = new Date().getTime();
+            let timeLeft = Math.floor((expireTime - now) / 1000); // মোট সেকেন্ড
+
+            if (timeLeft <= 0) {
+                // সময় শেষ হলে হাইড করে দেওয়া
+                let rowId = timerEl.id.replace('timer-', 'row-');
+                let rowEl = document.getElementById(rowId);
+                if (rowEl) rowEl.style.display = 'none';
+            } else {
+                // দিন, ঘণ্টা, মিনিট ও সেকেন্ড বের করার হিসাব
+                let d = Math.floor(timeLeft / (3600 * 24));
+                let h = Math.floor((timeLeft % (3600 * 24)) / 3600);
+                let m = Math.floor((timeLeft % 3600) / 60);
+                let s = Math.floor(timeLeft % 60);
+
+                let displayStr = "";
+                
+                // সময় অনুযায়ী স্মার্ট টেক্সট তৈরি
+                if (d > 0) {
+                    displayStr = `${engToBdNum(d)} দিন ${engToBdNum(h)} ঘ.`;
+                } else if (h > 0) {
+                    displayStr = `${engToBdNum(h)} ঘ. ${engToBdNum(m)} মি.`;
+                } else if (m > 0) {
+                    displayStr = `${engToBdNum(m)} মি. ${engToBdNum(s)} সে.`;
+                } else {
+                    displayStr = `${engToBdNum(s)} সে.`;
+                }
+
+                timerEl.innerHTML = `<i class="fas fa-trash-alt"></i> মুছবে: ${displayStr}`;
+            }
+        });
+    }, 1000);
+}
 
         window.logout = function() {
             localStorage.removeItem('eidgahUser');
