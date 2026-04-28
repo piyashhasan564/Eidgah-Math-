@@ -4,14 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ঈদগাহ মাঠ উন্নয়ন তহবিল</title>
-    <!-- ================= সোশ্যাল মিডিয়া লিংক প্রিভিউ (Meta Tags) ================= -->
-    <meta property="og:title" content="কোনাগাঁতী কেন্দ্রীয় ঈদগাহ মাঠ তহবিল">
-    <meta property="og:description" content="পবিত্র ঈদগাহ মাঠের উন্নয়ন ও সম্প্রসারণ কাজে আপনার মূল্যবান অনুদান প্রদান করুন। এখানে ডোনারদের লাইভ তালিকা দেখা যায়।">
-    <meta property="og:image" content="https://i.ibb.co.com/FksThvNz/20260427-041245.png">
-    <meta property="og:url" content="https://eidgah-math.vercel.app">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <!-- ========================================================================= -->
+    
   <!-- গুগল ফন্ট ও ফন্ট-অসাম -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -185,7 +178,20 @@
 .normal-list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid #f1f5f9; transition: background 0.3s; border-radius: 8px;}
 .normal-list-item:hover { background: #f8fafc; }
 .n-rank { font-weight: 800; color: #94a3b8; width: 25px; font-size: 15px; }
+     /* --- History Tab Styles --- */
+        .history-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .history-details { flex: 1; }
+        .history-amount { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+        .history-meta { font-size: 13px; color: #64748b; margin-bottom: 4px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+        .history-meta span { display: flex; align-items: center; gap: 5px; }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; text-align: center; white-space: nowrap;}
+        .status-pending { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+        .status-approved { background: #dcfce3; color: #166534; border: 1px solid #bbf7d0; }
+        .status-rejected { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
         
+        /* 4 Tabs Mobile Fix */
+        .tab-btn { padding: 10px 5px; font-size: 14px; flex-direction: column; gap: 4px; }
+        .tab-btn i { font-size: 18px; }   
         
     </style>
 </head>
@@ -256,6 +262,10 @@
                 <button class="tab-btn" onclick="openTab('donors', this)">
                     <i class="fas fa-list"></i> <span>লিস্ট</span>
                 </button>
+                <!-- নতুন হিস্ট্রি বাটন -->
+                <button class="tab-btn" onclick="openTab('history', this)">
+                    <i class="fas fa-history"></i> <span>হিস্ট্রি</span>
+                </button>
             </div>
         </header>
 
@@ -290,9 +300,18 @@
                 </div>
 
                 <div class="card">
-                    <h2 class="card-title"><i class="fas fa-wallet"></i> যেভাবে টাকা পাঠাবেন</h2>
-                    <div class="payment-grid">
-                        <div class="payment-box">
+    <h2 class="card-title"><i class="fas fa-wallet"></i> যেভাবে টাকা পাঠাবেন</h2>
+    
+    <!-- নতুন যোগ করা মেসেজ -->
+    <div style="background: #e0f2fe; color: #0369a1; padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border-left: 4px solid #0ea5e9; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;">
+        <i class="fas fa-info-circle" style="margin-top: 3px; font-size: 16px;"></i>
+        <div>
+    নিচের যেকোনো নম্বরে আপনার সুবিধামতো <b>Send Money</b> সম্পন্ন করুন। এরপর উপরের <b style="color: var(--primary);"><i class="fas fa-hand-holding-heart"></i> অনুদান</b> ট্যাবে গিয়ে ফর্মটি পূরণ করে আপনার জমার তথ্যটি নিশ্চিত করুন।
+</div>
+    </div>
+
+    <div class="payment-grid">
+        <div class="payment-box">
                             <img src="https://freelogopng.com/images/all_img/1656234745bkash-app-logo-png.png" style="height:35px; margin-bottom:5px;">
                             <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
                                 <b id="bkashNumShow">...</b>
@@ -347,7 +366,17 @@
                     </form>
                 </div>
             </div>
-
+<!-- ৪. অনুদান হিস্ট্রি ট্যাব (নতুন) -->
+            <div id="history" class="tab-content">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-history"></i> আমার অনুদানের হিস্ট্রি</h2>
+                    <div id="userHistoryList">
+                        <div style="text-align:center; padding: 20px; color: #64748b;">
+                            <i class="fas fa-spinner fa-spin text-2xl"></i><br>লোড হচ্ছে...
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- ৩. ডোনার লিস্ট ট্যাব -->
             <div id="donors" class="tab-content">
                 <div class="list-container" id="listLayout">
@@ -410,7 +439,7 @@
     <!-- Firebase System -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         
 const firebaseConfig = {
@@ -453,6 +482,68 @@ const firebaseConfig = {
             document.getElementById('navUserName').innerText = currentUser.name;
             document.getElementById('navUserPic').src = currentUser.photo;
             document.getElementById('donateAsName').innerText = currentUser.name;
+            
+            // লগইন করলেই তার হিস্ট্রি লোড হবে
+            loadUserHistory();
+        }
+
+        // --- নতুন: ইউজারের নিজস্ব হিস্ট্রি লোড করার ফাংশন ---
+        function loadUserHistory() {
+            const q = query(collection(db, "donations"), where("mobile", "==", currentUser.mobile));
+            
+            onSnapshot(q, (snapshot) => {
+                let historyData = [];
+                snapshot.forEach(doc => { historyData.push(doc.data()); });
+
+                // সময় অনুযায়ী সাজানো (নতুনটা উপরে)
+                historyData.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
+
+                let html = "";
+                if (historyData.length === 0) {
+                    html = '<div style="text-align:center; color:#64748b; padding:20px; background:#f8fafc; border-radius:10px;">আপনি এখনো কোনো অনুদান করেননি।</div>';
+                } else {
+                    historyData.forEach(d => {
+                        let dateObj = d.timestamp.toDate();
+                        let dateStr = dateObj.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' });
+                        let timeStr = dateObj.toLocaleTimeString('bn-BD', { hour: '2-digit', minute:'2-digit' });
+
+                        let statusClass, statusText, statusIcon;
+                        if(d.status === 'pending') { 
+                            statusClass = 'status-pending'; statusText = 'যাচাই হচ্ছে'; statusIcon = '<i class="fas fa-clock"></i>';
+                        } else if(d.status === 'approved') { 
+                            statusClass = 'status-approved'; statusText = 'গৃহীত হয়েছে'; statusIcon = '<i class="fas fa-check-circle"></i>';
+                        } else if(d.status === 'rejected') { 
+                            statusClass = 'status-rejected'; statusText = 'বাতিল হয়েছে'; statusIcon = '<i class="fas fa-times-circle"></i>';
+                        }
+
+                        let methodIcon = d.method === 'বিকাশ' ? '<span style="color:#e2136e; font-weight:bold;">বিকাশ</span>' : 
+                                         d.method === 'নগদ' ? '<span style="color:#ed1c24; font-weight:bold;">নগদ</span>' : 
+                                         d.method === 'রকেট' ? '<span style="color:#8c1562; font-weight:bold;">রকেট</span>' : 'ক্যাশ';
+
+                        let trxInfo = d.method === 'ক্যাশ' ? 'সরাসরি জমা' : `TrxID: ${d.trxId}`;
+
+                        html += `
+                            <div class="history-item">
+                                <div class="history-details">
+                                    <div class="history-amount">৳${engToBdNum(d.amount.toLocaleString())}</div>
+                                    <div class="history-meta">
+                                        <span>${methodIcon}</span>
+                                        <span style="color:#94a3b8;">|</span>
+                                        <span>${trxInfo}</span>
+                                    </div>
+                                    <div class="history-meta" style="font-size:11px;">
+                                        <span><i class="far fa-calendar-alt"></i> ${dateStr}, ${timeStr}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="status-badge ${statusClass}">${statusIcon} ${statusText}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                document.getElementById('userHistoryList').innerHTML = html;
+            });
         }
 
         window.logout = function() {
