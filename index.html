@@ -992,6 +992,23 @@ recentApproved.push(d); // লাইভ টিকারের জন্য ড�
             }
             popupHtml += `</div>`;
             window.targetHtmlData = popupHtml; // পপআপে দেখানোর জন্য সেভ করা হলো
+
+            // --- Live Ticker Logic ---
+            if(recentApproved.length > 0) {
+                // সময়ের ভিত্তিতে সবচেয়ে নতুনগুলো আগে আনা হলো
+                recentApproved.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
+                
+                // সর্বশেষ ৫ জনের নাম দেখানো হবে
+                let top5 = recentApproved.slice(0, 5); 
+                let tickerString = top5.map(u => `<span style="color:#10b981; font-size:10px;"><i class="fas fa-circle"></i></span> আলহামদুলিল্লাহ, মাত্রই <b>${u.name}</b> <span style="color:#fff;">৳${engToBdNum(u.amount.toLocaleString())}</span> অনুদান দিয়েছেন `).join("&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;");
+                
+                document.getElementById('tickerText').innerHTML = tickerString;
+                document.getElementById('liveTickerWrap').style.display = 'flex';
+            } else {
+                document.getElementById('liveTickerWrap').style.display = 'none';
+            }
+            // -------------------------
+
         });
 
         // পপআপ ওপেন করার ফাংশন
