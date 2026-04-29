@@ -184,26 +184,81 @@
         .history-amount { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
         .history-meta { font-size: 13px; color: #64748b; margin-bottom: 4px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
         .history-meta span { display: flex; align-items: center; gap: 5px; }
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; text-align: center; white-space: nowrap;}
-        .status-pending { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
-        .status-approved { background: #dcfce3; color: #166534; border: 1px solid #bbf7d0; }
-        .status-rejected { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
         
         /* 4 Tabs Mobile Fix */
         .tab-btn { padding: 10px 5px; font-size: 14px; flex-direction: column; gap: 4px; }
         .tab-btn i { font-size: 18px; }   
-        .countdown-timer {
-    font-size: 11px;
-    font-weight: 700;
-    color: #ef4444;
-    text-align: center;
-    margin-top: 6px;
-    background: #fef2f2;
-    padding: 2px 5px;
-    border-radius: 4px;
-    display: inline-block;
-}
+        /* ব্যাজ (বাতিল হয়েছে/গৃহীত হয়েছে) এর স্টাইল ছোট করা হলো */
+        .status-badge { 
+            padding: 3px 8px; /* চারদিকের বর্ডার/প্যাডিং কমানো হয়েছে */
+            border-radius: 20px; 
+            font-size: 11px; /* লেখার সাইজ ছোট করা হয়েছে */
+            font-weight: bold; 
+            text-align: center; 
+            white-space: nowrap;
+        }
+        .status-pending { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+        .status-approved { background: #dcfce3; color: #166534; border: 1px solid #bbf7d0; }
+        .status-rejected { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
+        /* নিচের টাইমারের লেখার সাইজ আরও ছোট করা হলো */
+        .countdown-timer {
+            font-size: 9px; /* সাইজ আরও ছোট করে ৯px করা হয়েছে */
+            font-weight: 700;
+            color: #ef4444;
+            text-align: right;
+            margin-top: 5px;
+            background: #fef2f2;
+            padding: 2px 5px; /* প্যাডিং কমানো হয়েছে */
+            border-radius: 4px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+/* --- Live Ticker Styles --- */
+        .ticker-wrap {
+            width: 100%;
+            background: #0f172a; /* গাঢ় নীল/কালো ব্যাকগ্রাউন্ড */
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            height: 35px;
+            overflow: hidden;
+            position: relative;
+            z-index: 90;
+        }
+        .ticker-heading {
+            background: var(--accent);
+            color: #fff;
+            padding: 0 12px;
+            font-size: 13px;
+            font-weight: bold;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 2;
+            white-space: nowrap;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+        }
+        .ticker-move {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .ticker-item {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 25s linear infinite; /* ২৫ সেকেন্ডে স্ক্রল হবে */
+            font-size: 14px;
+            color: #fde047; /* সোনালী হলুদ লেখা */
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
 
 
 
@@ -220,7 +275,7 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label>মোবাইল নম্বর</label>
-                    <input type="tel" id="loginMobile" class="form-control" required placeholder="উদাহরণ: ০১৭XXXXXXXX">
+                    <input type="tel" id="loginMobile" class="form-control" required placeholder="উদাহরণ: ০১৩XXXXXXXX">
                 </div>
                 <button type="submit" class="btn-submit" id="loginBtn">লগইন করুন</button>
             </form>
@@ -238,7 +293,7 @@
                 </div>
                 <div class="form-group">
                     <label>মোবাইল নম্বর (লগইন আইডি)</label>
-                    <input type="tel" id="regMobile" class="form-control" required placeholder="০১৭XXXXXXXX">
+                    <input type="tel" id="regMobile" class="form-control" required placeholder="০১৩XXXXXXXX">
                 </div>
                 <div class="form-group">
                     <label>আপনার ছবি</label>
@@ -283,6 +338,15 @@
             </div>
         </header>
 
+        <!-- লাইভ টিকার সেকশন -->
+        <div class="ticker-wrap" id="liveTickerWrap" style="display: none;">
+            <div class="ticker-heading"><i class="fas fa-bolt"></i> লাইভ আপডেট</div>
+            <div class="ticker-move">
+                <div class="ticker-item" id="tickerText">লোড হচ্ছে...</div>
+            </div>
+        </div>
+
+        
         <div class="container">
             
             <!-- ১. হোম ট্যাব -->
@@ -501,15 +565,16 @@ const firebaseConfig = {
             loadUserHistory();
         }
 
-       function loadUserHistory() {
+       // --- ইউজারের নিজস্ব হিস্ট্রি লোড করার ফাংশন ---
+function loadUserHistory() {
     const q = query(collection(db, "donations"), where("mobile", "==", currentUser.mobile));
     
     onSnapshot(q, (snapshot) => {
         let historyData = [];
         const now = new Date().getTime();
         
-        // ৩০ সেকেন্ডের বদলে ৭ দিনের হিসাব (7 days in milliseconds)
-        const waitTimeInMs = 30 * 1000;
+        // এখানে ৩০ সেকেন্ডের বদলে ৩ দিনের হিসাব দেওয়া হলো
+        const waitTimeInMs = 3 * 24 * 60 * 60 * 1000; // ৩ দিন
 
         snapshot.forEach(docSnap => { 
             let d = docSnap.data();
@@ -519,7 +584,7 @@ const firebaseConfig = {
             if (d.status === 'rejected' && d.rejectedAt) {
                 let rejectTime = d.rejectedAt.toDate().getTime();
                 if (now - rejectTime > waitTimeInMs) {
-                    deleteDoc(doc(db, "donations", d.id)); 
+                    deleteDoc(doc(db, "donations", d.id)); // ৩ দিন পর ডিলিট
                     return; 
                 }
             }
@@ -554,6 +619,7 @@ const firebaseConfig = {
 
                 let trxInfo = d.method === 'ক্যাশ' ? 'সরাসরি জমা' : `TrxID: ${d.trxId}`;
 
+                // লাইভ টাইমারের জন্য HTML (শুধুমাত্র রিজেক্টেড ডাটার জন্য)
                 let timerHtml = "";
                 if (d.status === 'rejected' && d.rejectedAt) {
                     let expireTime = d.rejectedAt.toDate().getTime() + waitTimeInMs;
@@ -588,8 +654,9 @@ const firebaseConfig = {
     });
 }
 
-// --- স্মার্ট লাইভ কাউন্টডাউন (দিন, ঘণ্টা, মিনিট, সেকেন্ড) ---
+// --- প্রতি সেকেন্ডে লাইভ সময় আপডেট করার ফাংশন ---
 function startLiveCountdown() {
+    // আগের কোনো টাইমার চললে সেটা বন্ধ করা
     if (window.activeCountdownInterval) clearInterval(window.activeCountdownInterval);
 
     window.activeCountdownInterval = setInterval(() => {
@@ -598,37 +665,37 @@ function startLiveCountdown() {
         timers.forEach(timerEl => {
             let expireTime = parseInt(timerEl.getAttribute('data-expire'));
             let now = new Date().getTime();
-            let timeLeft = Math.floor((expireTime - now) / 1000); // মোট সেকেন্ড
+            let timeLeft = Math.floor((expireTime - now) / 1000); // সেকেন্ডে রূপান্তর
 
             if (timeLeft <= 0) {
-                // সময় শেষ হলে হাইড করে দেওয়া
+                // সময় শেষ হলে স্ক্রিন থেকে সাথে সাথে লুকিয়ে ফেলা (ফায়ারবেস ব্যাকগ্রাউন্ডে ডিলিট করবে)
                 let rowId = timerEl.id.replace('timer-', 'row-');
                 let rowEl = document.getElementById(rowId);
                 if (rowEl) rowEl.style.display = 'none';
             } else {
-                // দিন, ঘণ্টা, মিনিট ও সেকেন্ড বের করার হিসাব
-                let d = Math.floor(timeLeft / (3600 * 24));
-                let h = Math.floor((timeLeft % (3600 * 24)) / 3600);
-                let m = Math.floor((timeLeft % 3600) / 60);
-                let s = Math.floor(timeLeft % 60);
+                // দিন, ঘণ্টা, মিনিট এবং সেকেন্ড বের করা
+                let days = Math.floor(timeLeft / (3600 * 24));
+                let hours = Math.floor((timeLeft % (3600 * 24)) / 3600);
+                let minutes = Math.floor((timeLeft % 3600) / 60);
+                let seconds = timeLeft % 60;
 
-                let displayStr = "";
-                
-                // সময় অনুযায়ী স্মার্ট টেক্সট তৈরি
-                if (d > 0) {
-                    displayStr = `${engToBdNum(d)} দিন ${engToBdNum(h)} ঘ.`;
-                } else if (h > 0) {
-                    displayStr = `${engToBdNum(h)} ঘ. ${engToBdNum(m)} মি.`;
-                } else if (m > 0) {
-                    displayStr = `${engToBdNum(m)} মি. ${engToBdNum(s)} সে.`;
+                // দিন, ঘণ্টা, মিনিট এবং সেকেন্ড একসাথে দেখানোর ফরম্যাট
+                let timeString = "";
+                if (days > 0) {
+                    timeString = `${engToBdNum(days)}দিন ${engToBdNum(hours)}ঘ. ${engToBdNum(minutes)}মি. ${engToBdNum(seconds)}সে.`;
+                } else if (hours > 0) {
+                    timeString = `${engToBdNum(hours)}ঘ. ${engToBdNum(minutes)}মি. ${engToBdNum(seconds)}সে.`;
+                } else if (minutes > 0) {
+                    timeString = `${engToBdNum(minutes)}মি. ${engToBdNum(seconds)}সে.`;
                 } else {
-                    displayStr = `${engToBdNum(s)} সে.`;
+                    timeString = `${engToBdNum(seconds)} সে.`;
                 }
 
-                timerEl.innerHTML = `<i class="fas fa-trash-alt"></i> মুছবে: ${displayStr}`;
+                // সময় বাকি থাকলে লাইভ দেখানো
+                timerEl.innerHTML = `<i class="fas fa-trash-alt"></i> মুছে যাবে: ${timeString}`;
             }
         });
-    }, 1000);
+    }, 1000); // প্রতি ১০০০ মিলি-সেকেন্ড (১ সেকেন্ড) পর পর আপডেট হবে
 }
 
         window.logout = function() {
@@ -807,11 +874,13 @@ if (isNaN(amount) || amount <= 0) {
             let totalRaised = 0;
             let targetRaised = 0; 
             const userGroups = {};
-
+            let recentApproved = []; // লাইভ টিকারের জন্য নতুন লাইন
+            
+            
             snapshot.forEach(doc => {
                 const d = doc.data();
                 if(d.status !== 'approved') return;
-
+recentApproved.push(d); // লাইভ টিকারের জন্য ডাটা সেভ
                 totalRaised += d.amount;
 
                 if(!userGroups[d.mobile]) {
