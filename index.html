@@ -214,10 +214,11 @@
             display: inline-block;
             white-space: nowrap;
         }
-/* --- Live Ticker Styles --- */
-        .ticker-wrap {
-            width: 100%;
-            background: #0f172a; /* গাঢ় নীল/কালো ব্যাকগ্রাউন্ড */
+.ticker-wrap {
+            width: calc(100% + 30px); /* দুইপাশের প্যাডিং মেলানোর জন্য */
+            margin-left: -15px; /* বামে সরিয়ে আনা হলো */
+            margin-right: -15px; /* ডানে সরিয়ে আনা হলো */
+            background: #0f172a; 
             border-bottom: 2px solid var(--accent);
             display: flex;
             align-items: center;
@@ -251,7 +252,7 @@
         .ticker-item {
             display: inline-block;
             padding-left: 100%;
-            animation: marquee 25s linear infinite; /* ২৫ সেকেন্ডে স্ক্রল হবে */
+            animation: marquee 20s linear infinite; /* ২৫ সেকেন্ডে স্ক্রল হবে */
             font-size: 14px;
             color: #fde047; /* সোনালী হলুদ লেখা */
         }
@@ -336,15 +337,16 @@
                     <i class="fas fa-history"></i> <span>হিস্ট্রি</span>
                 </button>
             </div>
-        </header>
-
-        <!-- লাইভ টিকার সেকশন -->
+            <!-- লাইভ টিকার সেকশন -->
         <div class="ticker-wrap" id="liveTickerWrap" style="display: none;">
             <div class="ticker-heading"><i class="fas fa-bolt"></i> লাইভ আপডেট</div>
             <div class="ticker-move">
                 <div class="ticker-item" id="tickerText">লোড হচ্ছে...</div>
             </div>
         </div>
+        </header>
+
+        
 
         
         <div class="container">
@@ -876,11 +878,19 @@ if (isNaN(amount) || amount <= 0) {
             const userGroups = {};
             let recentApproved = []; // লাইভ টিকারের জন্য নতুন লাইন
             
+            // বর্তমান সময় এবং ২৪ ঘণ্টার হিসাব
+            const currentTime = new Date().getTime();
+            const tickerTimeLimit = 24 * 60 * 60 * 1000; // ২৪ ঘণ্টা মিলি-সেকেন্ডে
             
             snapshot.forEach(doc => {
                 const d = doc.data();
                 if(d.status !== 'approved') return;
-recentApproved.push(d); // লাইভ টিকারের জন্য ডাটা সেভ
+
+                // যার অনুদানের সময় ২৪ ঘণ্টার কম, শুধু তার নামই টিকারে যাবে
+                if (currentTime - d.timestamp.toMillis() <= tickerTimeLimit) {
+                    recentApproved.push(d); 
+                }
+                
                 totalRaised += d.amount;
 
                 if(!userGroups[d.mobile]) {
@@ -1004,6 +1014,20 @@ recentApproved.push(d); // লাইভ টিকারের জন্য ড�
                 
                 document.getElementById('tickerText').innerHTML = tickerString;
                 document.getElementById('liveTickerWrap').style.display = 'flex';
+
+                // --- স্পিড কন্ট্রোল করার নতুন কোড ---
+                setTimeout(() => {
+                    let tickerEl = document.getElementById('tickerText');
+                    let textWidth = tickerEl.offsetWidth; 
+                    
+                    // এখানে 50 হচ্ছে স্পিড। আপনি চাইলে এই সংখ্যা বাড়িয়ে (যেমন: 70) স্পিড ফাস্ট করতে পারেন বা কমিয়ে (যেমন: 30) স্লো করতে পারেন।
+                    let speed = 50; 
+                    
+                    let duration = textWidth / speed;
+                    tickerEl.style.animationDuration = duration + 's';
+                }, 100);
+                // ------------------------------------
+
             } else {
                 document.getElementById('liveTickerWrap').style.display = 'none';
             }
