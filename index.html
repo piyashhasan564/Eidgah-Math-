@@ -269,6 +269,182 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-100%); }
         }
+/* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 55px;
+            height: 55px;
+            bottom: 25px; /* নিচ থেকে কতটুকু উপরে থাকবে */
+            right: 20px; /* ডান পাশ থেকে কতটুকু দূরে থাকবে */
+            background-color: #25d366;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 32px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+            animation: pulse-wa 2s infinite;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128C7E;
+        }
+        /* হালকা এনিমেশন যাতে মানুষের চোখে পড়ে */
+        @keyframes pulse-wa {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+/* --- Developer Footer Styles --- */
+        .app-footer {
+            margin-top: 30px;
+            background: #ffffff;
+            border-top: 2px solid #e2e8f0;
+            padding: 25px 20px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.03);
+        }
+        .copyright {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+        .dev-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 15px;
+            display: inline-block;
+            max-width: 100%;
+        }
+        .dev-title {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .dev-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+        .dev-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffffff; /* ভেতরের সাদা বর্ডার */
+            box-shadow: 
+                0 0 0 3px #047857,     /* গাঢ় সবুজ রিং */
+                0 0 0 6px #fde047,     /* সোনালী রিং */
+                0 12px 25px rgba(0, 0, 0, 0.2); /* থ্রিডি ভাসমান শ্যাডো */
+            transition: all 0.4s ease;
+        }
+        /* ছবিতে চাপ দিলে বা মাউস নিলে হালকা স্টাইলিশ এনিমেশন হবে */
+        .dev-avatar:hover {
+            transform: scale(1.08) rotate(5deg);
+        }
+        .dev-name {
+            font-size: 19px;
+            font-weight: 900;
+            color: #064e3b;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        
+        }
+        .dev-social-links {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 15px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex !important; /* এটি আইকনগুলোকে নিচে নিচে নামতে দেবে না */
+            align-items: center;
+            justify-content: center;
+            color: white !important;
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .bg-wa { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .bg-tg { background: linear-gradient(135deg, #0088cc, #005c8a); }
+        .bg-fb { background: linear-gradient(135deg, #1877F2, #0c56b6); }
+        
+        
+/* --- Compact Finance Dashboard Cards --- */
+        .finance-banner {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 15px; /* নিচের ফাঁকা জায়গা কমানো হয়েছে */
+        }
+
+        .btn-expense-view {
+            flex: 1;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: 2px solid #f87171; /* হালকা বর্ডার দেওয়া হলো যাতে বাটন মনে হয় */
+            padding: 6px 8px; /* সাইজ অনেক কমানো হয়েছে */
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* দুইপাশে ভাগ করে দেওয়া হলো */
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+            animation: gentlePulse 2s infinite;
+            transition: 0.3s;
+            text-align: left;
+        }
+        .btn-expense-view:active { transform: scale(0.95); }
+
+        .badge-cash {
+            flex: 1;
+            background: linear-gradient(135deg, #f0fdf4, #dcfce3);
+            border: 1px solid #bbf7d0;
+            padding: 6px 8px; /* সাইজ কমানো হয়েছে */
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            text-align: left;
+        }
+
+        .click-indicator {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        @keyframes gentlePulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
 
 
 
@@ -323,12 +499,16 @@
             <!-- User Profile Bar -->
             <div class="user-profile-bar">
                 <div class="user-info">
-                    <img id="navUserPic" src="" alt="User">
-                    <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.2;">
-                        <span id="navUserName" style="font-size: 13px;">...</span>
-                        <span id="navUserMobile" style="font-size: 10px; font-weight: 800; color: #ffffff; letter-spacing: 0.3px;">...</span>
-                    </div>
-                </div>
+    <img id="navUserPic" src="" alt="User">
+    <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.3;">
+        <span id="navUserName" style="font-size: 13px; font-weight: bold;">...</span>
+        <span id="navUserMobile" style="font-size: 10px; color: #ffffff;">...</span>
+        <!-- নতুন যোগ করা লাইন: মোট অনুদান -->
+        <span style="font-size: 11px; color: #fde047; font-weight: 800; margin-top: 2px;">
+            <i class="fas fa-coins"></i> মোট: <span id="myTotalDonation">৳০</span>
+        </span>
+    </div>
+</div>
                 <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগআউট</button>
             </div>
 
@@ -475,7 +655,38 @@
                     
                     <!-- Main Leaderboard -->
                     <div class="card">
-                        <!-- হেডার ও বাটন -->
+                    <!-- আপডেট করা স্লিম খরচ ও ক্যাশ বক্স -->
+                        <div class="finance-banner">
+                            
+                            <!-- খরচের বাটন (এখন মানুষ দেখলেই বুঝবে এটা বাটন) -->
+                            <button onclick="showExpenseDetails()" class="btn-expense-view" title="ক্লিক করে বিস্তারিত দেখুন">
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-receipt" style="font-size: 15px;"></i>
+                                    <div style="line-height: 1.1;">
+                                        <div style="font-size: 9px; font-weight: normal; opacity: 0.9;">মোট খরচ</div>
+                                        <div style="font-size: 14px; font-weight: 800;"><span id="statTotalOut">৳০</span></div>
+                                    </div>
+                                </div>
+                                <!-- এই লেখাটি বাটনটিকে ক্লিকেবল প্রমাণ করবে -->
+                                <div class="click-indicator">
+                                    দেখুন <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </button>
+
+                            <!-- ক্যাশ ব্যালেন্স -->
+                            <div class="badge-cash">
+                                <i class="fas fa-wallet" style="font-size: 15px; color: #059669;"></i>
+                                <div style="line-height: 1.1;">
+                                    <div style="font-size: 9px; font-weight: normal; color: #047857;">বর্তমান ক্যাশ</div>
+                                    <div style="font-size: 14px; font-weight: 800; color: #047857;"><span id="statBalance">৳০</span></div>
+                                </div>
+                            </div>
+                            
+                            <!-- জাভাস্ক্রিপ্ট এরর ঠেকানোর জন্য হিডেন ডাটা -->
+                            <span id="statTotalIn" style="display: none;"></span>
+                        </div>
+
+                        <!-- হেডার ও বাটন (আগের মতো অরিজিনাল) -->
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 20px;">
                             <h2 class="card-title" style="border:none; padding:0; margin:0;"><i class="fas fa-trophy text-amber-500"></i> মূল দাতা তালিকা</h2>
                             
@@ -494,16 +705,59 @@
             </div>
 
         </div>
+        <!-- কপিরাইট এবং ডেভেলপার সেকশন -->
+        <footer class="app-footer">
+            <div class="copyright">
+                স্বত্বাধিকারী © ২০২৪ কোনাগাঁতী কেন্দ্রীয় ঈদগাহ মাঠ
+            </div>
+            
+            <div class="dev-box">
+                <span class="dev-title">Developed & Maintained By</span>
+                <div class="dev-profile">
+                    <img src="https://i.ibb.co.com/M5ZVH1Zk/1000018276.jpg" alt="Developer" class="dev-avatar">
+                    <div style="text-align: left;">
+                        <div class="dev-name">Md Piyash Hasan</div>
+                        <div style="font-size: 12px; color: #64748b; font-weight: 600;">Full Stack Web Developer</div>
+                    </div>
+                </div>
+                
+                <div class="dev-social-links">
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/8801325428923" target="_blank" class="social-btn bg-wa" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <!-- Telegram -->
+                    <a href="https://t.me/piyashhasan_ph564" target="_blank" class="social-btn bg-tg" title="Telegram">
+                        <i class="fab fa-telegram-plane"></i>
+                    </a>
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/share/1ENu3p2NGT/" target="_blank" class="social-btn bg-fb" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
     </div>
-
+<!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/8801325428923" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
     <!-- UI Logic -->
     <script>
-        function openTab(tabName, elmnt) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-            elmnt.classList.add('active');
-        }
+       let isHistoryLoaded = false; // ডাটা একবার লোড করার জন্য ভেরিয়েবল
+
+window.openTab = function(tabName, elmnt) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    elmnt.classList.add('active');
+
+    // ইউজার যদি হিস্ট্রি ট্যাবে ক্লিক করে এবং আগে লোড না হয়ে থাকে, তবেই ফায়ারবেস থেকে টানবে
+    if (tabName === 'history' && !isHistoryLoaded) {
+        loadUserHistory();
+        isHistoryLoaded = true;
+    }
+};
 
         function toggleAuth(type) {
             if(type === 'register') {
@@ -531,7 +785,7 @@
     <!-- Firebase System -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, query, orderBy, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, doc, setDoc, getDoc, getDocs, onSnapshot, query, orderBy, where, deleteDoc, limit } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"; 
 
         
 const firebaseConfig = {
@@ -571,152 +825,102 @@ const formatMobile = num => { let n = bdToEngNum(num).replace(/\D/g, ''); if(n.s
         }
 
         function showMainApp() {
-            document.getElementById('authSection').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-            
-            document.getElementById('navUserName').innerText = currentUser.name;
-            // এই নিচের লাইনটি নতুন যোগ করা হলো (নাম্বারটিকে বাংলায় কনভার্ট করে দেখাবে)
-            document.getElementById('navUserMobile').innerText = engToBdNum(currentUser.mobile);
-            
-            document.getElementById('navUserPic').src = currentUser.photo;
-            document.getElementById('donateAsName').innerText = currentUser.name;
-            
-            // লগইন করলেই তার হিস্ট্রি লোড হবে
-            loadUserHistory();
-        }
-
-       // --- ইউজারের নিজস্ব হিস্ট্রি লোড করার ফাংশন ---
-function loadUserHistory() {
-    const q = query(collection(db, "donations"), where("mobile", "==", currentUser.mobile));
+    document.getElementById('authSection').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
     
-    onSnapshot(q, (snapshot) => {
-        let historyData = [];
-        const now = new Date().getTime();
-        
-        // এখানে ৩০ সেকেন্ডের বদলে ৩ দিনের হিসাব দেওয়া হলো
-        const waitTimeInMs = 3 * 24 * 60 * 60 * 1000; // ৩ দিন
+    document.getElementById('navUserName').innerText = currentUser.name;
+    document.getElementById('navUserMobile').innerText = engToBdNum(currentUser.mobile);
+    document.getElementById('navUserPic').src = currentUser.photo;
+    document.getElementById('donateAsName').innerText = currentUser.name;
+    
+    // ১. মোট টাকা সরাসরি প্রোফাইল থেকে সেট করা হলো (নতুন)
+    document.getElementById('myTotalDonation').innerText = '৳' + engToBdNum((currentUser.totalAmount || 0).toLocaleString());
+    
+    // ২. loadUserHistory(); <--- এই লাইনটা ডিলিট করে দিন! (রিড কমানোর জন্য)
 
-        snapshot.forEach(docSnap => { 
-            let d = docSnap.data();
-            d.id = docSnap.id; 
-
-            // === অটো ডিলিট লজিক ===
-            if (d.status === 'rejected' && d.rejectedAt) {
-                let rejectTime = d.rejectedAt.toDate().getTime();
-                if (now - rejectTime > waitTimeInMs) {
-                    deleteDoc(doc(db, "donations", d.id)); // ৩ দিন পর ডিলিট
-                    return; 
-                }
-            }
-
-            historyData.push(d); 
-        });
-
-        // সময় অনুযায়ী সাজানো
-        historyData.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
-
-        let html = "";
-        if (historyData.length === 0) {
-            html = '<div style="text-align:center; color:#64748b; padding:20px; background:#f8fafc; border-radius:10px;">আপনি এখনো কোনো অনুদান করেননি।</div>';
-        } else {
-            historyData.forEach(d => {
-                let dateObj = d.timestamp.toDate();
-                let dateStr = dateObj.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' });
-                let timeStr = dateObj.toLocaleTimeString('bn-BD', { hour: '2-digit', minute:'2-digit' });
-
-                let statusClass, statusText, statusIcon;
-                if(d.status === 'pending') { 
-                    statusClass = 'status-pending'; statusText = 'যাচাই হচ্ছে'; statusIcon = '<i class="fas fa-clock"></i>';
-                } else if(d.status === 'approved') { 
-                    statusClass = 'status-approved'; statusText = 'গৃহীত হয়েছে'; statusIcon = '<i class="fas fa-check-circle"></i>';
-                } else if(d.status === 'rejected') { 
-                    statusClass = 'status-rejected'; statusText = 'বাতিল হয়েছে'; statusIcon = '<i class="fas fa-times-circle"></i>';
-                }
-
-                let methodIcon = d.method === 'বিকাশ' ? '<span style="color:#e2136e; font-weight:bold;">বিকাশ</span>' : 
-                                 d.method === 'নগদ' ? '<span style="color:#ed1c24; font-weight:bold;">নগদ</span>' : 
-                                 d.method === 'রকেট' ? '<span style="color:#8c1562; font-weight:bold;">রকেট</span>' : 'ক্যাশ';
-
-                let trxInfo = d.method === 'ক্যাশ' ? 'সরাসরি জমা' : `TrxID: ${d.trxId}`;
-
-                // লাইভ টাইমারের জন্য HTML (শুধুমাত্র রিজেক্টেড ডাটার জন্য)
-                let timerHtml = "";
-                if (d.status === 'rejected' && d.rejectedAt) {
-                    let expireTime = d.rejectedAt.toDate().getTime() + waitTimeInMs;
-                    timerHtml = `<div class="countdown-timer" id="timer-${d.id}" data-expire="${expireTime}">হিসাব হচ্ছে...</div>`;
-                }
-
-                html += `
-                    <div class="history-item" id="row-${d.id}">
-                        <div class="history-details">
-                            <div class="history-amount">৳${engToBdNum(d.amount.toLocaleString())}</div>
-                            <div class="history-meta">
-                                <span>${methodIcon}</span>
-                                <span style="color:#94a3b8;">|</span>
-                                <span>${trxInfo}</span>
-                            </div>
-                            <div class="history-meta" style="font-size:11px;">
-                                <span><i class="far fa-calendar-alt"></i> ${dateStr}, ${timeStr}</span>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div class="status-badge ${statusClass}">${statusIcon} ${statusText}</div>
-                            ${timerHtml}
-                        </div>
-                    </div>
-                `;
-            });
+    onSnapshot(doc(db, "users", currentUser.mobile), (docSnap) => {
+        if (docSnap.exists()) {
+            let freshData = docSnap.data();
+            localStorage.setItem('eidgahUser', JSON.stringify(freshData)); 
+            
+            document.getElementById('navUserName').innerText = freshData.name;
+            document.getElementById('donateAsName').innerText = freshData.name;
+            document.getElementById('navUserPic').src = freshData.photo;
+            
+            // রিয়েলটাইমে মোট টাকা আপডেট (নতুন)
+            document.getElementById('myTotalDonation').innerText = '৳' + engToBdNum((freshData.totalAmount || 0).toLocaleString());
+            
+            currentUser = freshData;
         }
-        document.getElementById('userHistoryList').innerHTML = html;
-        
-        // লাইভ টাইমার চালু করা
-        startLiveCountdown();
     });
 }
 
-// --- প্রতি সেকেন্ডে লাইভ সময় আপডেট করার ফাংশন ---
-function startLiveCountdown() {
-    // আগের কোনো টাইমার চললে সেটা বন্ধ করা
-    if (window.activeCountdownInterval) clearInterval(window.activeCountdownInterval);
+       // --- ইউজারের নিজস্ব হিস্ট্রি লোড করার ফাংশন ---
+        window.loadUserHistory = async function() {
+            const q = query(collection(db, "donations"), where("mobile", "==", currentUser.mobile));
+            
+            // onSnapshot এর বদলে getDocs (রিড বাঁচানোর জন্য)
+            const snapshot = await getDocs(q);
+            
+            let historyData = [];
+            snapshot.forEach(docSnap => { 
+                let d = docSnap.data();
+                d.id = docSnap.id; 
+                historyData.push(d); 
+            });
 
-    window.activeCountdownInterval = setInterval(() => {
-        let timers = document.querySelectorAll('.countdown-timer');
-        
-        timers.forEach(timerEl => {
-            let expireTime = parseInt(timerEl.getAttribute('data-expire'));
-            let now = new Date().getTime();
-            let timeLeft = Math.floor((expireTime - now) / 1000); // সেকেন্ডে রূপান্তর
+            // সময় অনুযায়ী সাজানো
+            historyData.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
 
-            if (timeLeft <= 0) {
-                // সময় শেষ হলে স্ক্রিন থেকে সাথে সাথে লুকিয়ে ফেলা (ফায়ারবেস ব্যাকগ্রাউন্ডে ডিলিট করবে)
-                let rowId = timerEl.id.replace('timer-', 'row-');
-                let rowEl = document.getElementById(rowId);
-                if (rowEl) rowEl.style.display = 'none';
+            let html = "";
+            if (historyData.length === 0) {
+                html = '<div style="text-align:center; color:#64748b; padding:20px; background:#f8fafc; border-radius:10px;">আপনি এখনো কোনো অনুদান করেননি।</div>';
             } else {
-                // দিন, ঘণ্টা, মিনিট এবং সেকেন্ড বের করা
-                let days = Math.floor(timeLeft / (3600 * 24));
-                let hours = Math.floor((timeLeft % (3600 * 24)) / 3600);
-                let minutes = Math.floor((timeLeft % 3600) / 60);
-                let seconds = timeLeft % 60;
+                historyData.forEach(d => {
+                    let dateObj = d.timestamp.toDate();
+                    let dateStr = dateObj.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' });
+                    let timeStr = dateObj.toLocaleTimeString('bn-BD', { hour: '2-digit', minute:'2-digit' });
 
-                // দিন, ঘণ্টা, মিনিট এবং সেকেন্ড একসাথে দেখানোর ফরম্যাট
-                let timeString = "";
-                if (days > 0) {
-                    timeString = `${engToBdNum(days)}দিন ${engToBdNum(hours)}ঘ. ${engToBdNum(minutes)}মি. ${engToBdNum(seconds)}সে.`;
-                } else if (hours > 0) {
-                    timeString = `${engToBdNum(hours)}ঘ. ${engToBdNum(minutes)}মি. ${engToBdNum(seconds)}সে.`;
-                } else if (minutes > 0) {
-                    timeString = `${engToBdNum(minutes)}মি. ${engToBdNum(seconds)}সে.`;
-                } else {
-                    timeString = `${engToBdNum(seconds)} সে.`;
-                }
+                    let statusClass, statusText, statusIcon;
+                    if(d.status === 'pending') { 
+                        statusClass = 'status-pending'; statusText = 'যাচাই হচ্ছে'; statusIcon = '<i class="fas fa-clock"></i>';
+                    } else if(d.status === 'approved') { 
+                        statusClass = 'status-approved'; statusText = 'গৃহীত হয়েছে'; statusIcon = '<i class="fas fa-check-circle"></i>';
+                    }
 
-                // সময় বাকি থাকলে লাইভ দেখানো
-                timerEl.innerHTML = `<i class="fas fa-trash-alt"></i> মুছে যাবে: ${timeString}`;
+                    let methodIcon = d.method === 'বিকাশ' ? '<span style="color:#e2136e; font-weight:bold;">বিকাশ</span>' : 
+                                     d.method === 'নগদ' ? '<span style="color:#ed1c24; font-weight:bold;">নগদ</span>' : 
+                                     d.method === 'রকেট' ? '<span style="color:#8c1562; font-weight:bold;">রকেট</span>' : 'ক্যাশ';
+
+                    let trxInfo = d.method === 'ক্যাশ' ? 'সরাসরি জমা' : `TrxID: ${d.trxId}`;
+
+                    let targetLabelText = d.targetName ? d.targetName : (d.isTargetDonation ? "লক্ষ্যমাত্রা" : "সাধারণ অনুদান");
+                    let targetLabelHtml = `<div style="font-size: 10px; color: #475569; margin-bottom: 5px; font-weight: 800;"><i class="fas fa-tag" style="color: #94a3b8;"></i> ${targetLabelText}</div>`;
+
+                    html += `
+                        <div class="history-item" id="row-${d.id}">
+                            <div class="history-details">
+                                <div class="history-amount">৳${engToBdNum(d.amount.toLocaleString())}</div>
+                                <div class="history-meta">
+                                    <span>${methodIcon}</span>
+                                    <span style="color:#94a3b8;">|</span>
+                                    <span>${trxInfo}</span>
+                                </div>
+                                <div class="history-meta" style="font-size:11px;">
+                                    <span><i class="far fa-calendar-alt"></i> ${dateStr}, ${timeStr}</span>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                ${targetLabelHtml}
+                                <div class="status-badge ${statusClass}">${statusIcon} ${statusText}</div>
+                            </div>
+                        </div>
+                    `;
+                });
             }
-        });
-    }, 1000); // প্রতি ১০০০ মিলি-সেকেন্ড (১ সেকেন্ড) পর পর আপডেট হবে
-}
+            document.getElementById('userHistoryList').innerHTML = html;
+        }; // এখানে ব্র্যাকেটের ভুলটি ঠিক করা হয়েছে
+
 
         window.logout = function() {
             localStorage.removeItem('eidgahUser');
@@ -810,8 +1014,24 @@ function startLiveCountdown() {
                 const photoUrl = imgData.data.url;
 
                 btn.innerText = "অ্যাকাউন্ট তৈরি হচ্ছে...";
-                const userData = { name, mobile, photo: photoUrl, createdAt: new Date() };
-                await setDoc(doc(db, "users", mobile), userData);
+                // ইউজারের নামটাকে ভেঙে Array বানানো হচ্ছে (সার্চের জন্য)
+const nameLower = name.toLowerCase();
+const nameKeywords = nameLower.split(" "); 
+
+const userData = {
+    name: name,
+    mobile: mobile,
+    photo: photoUrl,   // আপনার আগের যা যা ছিল সব থাকবে
+    createdAt: new Date(),
+    
+    // --- এই ৩টি লাইন নতুন যোগ করতে হবে ---
+    totalAmount: 0,    // মোট টাকা শূন্য দিয়ে শুরু
+    totalCount: 0,     // কয়বার দিয়েছে সেটাও শূন্য
+    keywords: nameKeywords  // নামের টুকরোগুলো (সার্চ করার জন্য)
+};
+
+// ফায়ারবেসে সেভ করা
+await setDoc(doc(db, "users", mobile), userData);
 
                 localStorage.setItem('eidgahUser', JSON.stringify(userData));
                 Swal.fire('সফল!', 'রেজিস্ট্রেশন সম্পন্ন হয়েছে।', 'success').then(() => location.reload());
@@ -856,6 +1076,33 @@ function startLiveCountdown() {
                     document.getElementById('raisedBox').style.width = '100%';
                     document.getElementById('showTargetBtn').style.display = 'none';
                 }
+
+                
+                let totalRaised = data.totalFund || 0;
+                let targetRaised = data.targetFund || 0;
+
+                let percent = 0;
+                // খরচের হিসাব ও UI আপডেট
+                let totalExp = data.totalExpense || 0;
+                let currentBalance = totalRaised - totalExp;
+
+                document.getElementById('statTotalIn').innerText = '৳' + engToBdNum(totalRaised.toLocaleString());
+                document.getElementById('statTotalOut').innerText = '৳' + engToBdNum(totalExp.toLocaleString());
+                document.getElementById('statBalance').innerText = '৳' + engToBdNum(currentBalance.toLocaleString());
+                if(targetAmount > 0){ percent = (targetRaised / targetAmount) * 100; }
+                if(percent > 100) percent = 100;
+
+                if (isTargetActive) {
+                    document.querySelector('#raisedBox span').innerText = "লক্ষ্যমাত্রায় সংগ্রহ";
+                    document.getElementById('raisedAmountText').innerText = '৳' + engToBdNum(targetRaised.toLocaleString());
+                } else {
+                    document.querySelector('#raisedBox span').innerText = "সর্বমোট সংগ্রহ";
+                    document.getElementById('raisedAmountText').innerText = '৳' + engToBdNum(totalRaised.toLocaleString());
+                }
+                
+                document.getElementById('progressBar').style.width = percent + '%';
+                document.getElementById('progressBar').innerText = percent >= 5 ? engToBdNum(Math.floor(percent)) + '%' : '';
+                
             }
         });
 
@@ -866,13 +1113,36 @@ function startLiveCountdown() {
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...'; btn.disabled = true;
 
             const amount = parseInt(document.getElementById('donationAmount').value);
-            // --- নতুন যোগ করা ভ্যালিডেশন ---
-if (isNaN(amount) || amount <= 0) {
-    Swal.fire('সতর্কতা!', 'দয়া করে সঠিক টাকার পরিমাণ লিখুন।', 'warning');
-    btn.innerHTML = '<i class="fas fa-check-circle"></i> জমা দিন'; 
-    btn.disabled = false;
-    return;
-}
+            // --- টাকার পরিমাণ ভ্যালিডেশন ---
+            if (isNaN(amount) || amount <= 0) {
+                Swal.fire('সতর্কতা!', 'দয়া করে সঠিক টাকার পরিমাণ লিখুন।', 'warning');
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> জমা দিন'; 
+                btn.disabled = false;
+                return;
+            }
+
+            // ========================================================
+            // --- স্প্যামিং রোধ: পেন্ডিং রিকোয়েস্ট চেক (নতুন আপডেট) ---
+            // ========================================================
+            try {
+                const pendingQuery = query(collection(db, "donations"), where("mobile", "==", currentUser.mobile), where("status", "==", "pending"));
+                const pendingSnap = await getDocs(pendingQuery);
+                
+                if (!pendingSnap.empty) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'একটু অপেক্ষা করুন!',
+                        text: 'আপনার আগের একটি রিকোয়েস্ট যাচাই অবস্থায় (Pending) আছে। সেটি অ্যাপ্রুভ বা রিজেক্ট না হওয়া পর্যন্ত নতুন রিকোয়েস্ট দেওয়া যাবে না।'
+                    });
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> জমা দিন'; 
+                    btn.disabled = false;
+                    return; // এখানেই প্রসেস থামিয়ে দিবে
+                }
+            } catch (err) {
+                console.error("Pending check error:", err);
+            }
+            // ========================================================
+
             const method = document.getElementById('paymentMethod').value;
             const trxId = document.getElementById('trxId').value;
 
@@ -887,12 +1157,14 @@ if (isNaN(amount) || amount <= 0) {
                     timestamp: new Date(),
                     status: "pending",
                     isTargetDonation: isTargetActive, 
-                    targetSessionId: isTargetActive ? currentTargetSessionId : null // কোন সেশনে টাকা দিলো তা সেভ হবে
+                    targetSessionId: isTargetActive ? currentTargetSessionId : null,
+                    targetName: isTargetActive ? window.targetReasonGlobal : "সাধারণ অনুদান"
                 });
 
                 Swal.fire('আলহামদুলিল্লাহ!', 'আপনার অনুদানের তথ্য জমা হয়েছে। অ্যাডমিন যাচাই করার পর লিস্টে যোগ হবে।', 'success').then(() => {
                     document.getElementById('donationForm').reset();
-                    document.querySelector('.tab-menu button:nth-child(3)').click();
+                    // অনুদান ট্যাবের পর হিস্ট্রি বা লিস্ট ট্যাবে পাঠিয়ে দেওয়া (ঐচ্ছিক)
+                    document.querySelector('.tab-menu button:nth-child(4)').click();
                 });
             } catch(err) {
                 Swal.fire('দুঃখিত', 'তথ্য জমা দেওয়া যায়নি।', 'error');
@@ -900,78 +1172,30 @@ if (isNaN(amount) || amount <= 0) {
             btn.innerHTML = '<i class="fas fa-check-circle"></i> জমা দিন'; btn.disabled = false;
         });
 
-        // --- Listen to Donations & Build Leaderboards ---
-        window.targetHtmlData = ""; // গ্লোবাল ভেরিয়েবল পপআপের ডাটা রাখার জন্য
+        // --- Listen to Donations & Build Leaderboards (Optimized) ---
+        window.targetHtmlData = ""; 
 
-        onSnapshot(query(collection(db, "donations")), (snapshot) => {
-            let totalRaised = 0;
-            let targetRaised = 0; 
-            const userGroups = {};
-            let recentApproved = []; // লাইভ টিকারের জন্য নতুন লাইন
-            
-            // বর্তমান সময় এবং ২৪ ঘণ্টার হিসাব
-            const currentTime = new Date().getTime();
-            const tickerTimeLimit = 24 * 60 * 60 * 1000; // ২৪ ঘণ্টা মিলি-সেকেন্ডে
-            
+        // ১. মূল লিডারবোর্ড (সর্বোচ্চ ২০ জন)
+        const topUsersQuery = query(collection(db, "users"), orderBy("totalAmount", "desc"), limit(20));
+        onSnapshot(topUsersQuery, (snapshot) => {
+            let mainListArray = [];
             snapshot.forEach(doc => {
-                const d = doc.data();
-                if(d.status !== 'approved') return;
-
-                // যার অনুদানের সময় ২৪ ঘণ্টার কম, শুধু তার নামই টিকারে যাবে
-                if (currentTime - d.timestamp.toMillis() <= tickerTimeLimit) {
-                    recentApproved.push(d); 
-                }
-                
-                totalRaised += d.amount;
-
-                if(!userGroups[d.mobile]) {
-                    userGroups[d.mobile] = {
-                        name: d.name, mobile: d.mobile, photo: d.photo,
-                        totalAmount: 0, targetAmount: 0
-                    };
-                }
-                userGroups[d.mobile].totalAmount += d.amount;
-                
-                // শুধুমাত্র বর্তমান সেশনের লক্ষ্যমাত্রার টাকাগুলো হিসাব হবে
-                if(d.isTargetDonation === true && d.targetSessionId === currentTargetSessionId) {
-                    targetRaised += d.amount;
-                    userGroups[d.mobile].targetAmount += d.amount;
+                let u = doc.data();
+                if(u.totalAmount && u.totalAmount > 0) {
+                    mainListArray.push(u);
                 }
             });
 
-            // Update Progress Bar
-            let percent = 0;
-            if(targetAmount > 0){ percent = (targetRaised / targetAmount) * 100; }
-            if(percent > 100) percent = 100;
-            
-            if (isTargetActive) {
-                document.querySelector('#raisedBox span').innerText = "লক্ষ্যমাত্রায় সংগ্রহ";
-                document.getElementById('raisedAmountText').innerText = '৳' + engToBdNum(targetRaised.toLocaleString());
-            } else {
-                document.querySelector('#raisedBox span').innerText = "সর্বমোট সংগ্রহ";
-                document.getElementById('raisedAmountText').innerText = '৳' + engToBdNum(totalRaised.toLocaleString());
-            }
-
-            document.getElementById('progressBar').style.width = percent + '%';
-            document.getElementById('progressBar').innerText = percent >= 5 ? engToBdNum(Math.floor(percent)) + '%' : '';
-
-            const allUsers = Object.values(userGroups);
-            const mainListArray = [...allUsers].sort((a, b) => b.totalAmount - a.totalAmount);
-            const targetListArray = allUsers.filter(u => u.targetAmount > 0).sort((a, b) => b.targetAmount - a.targetAmount);
-
-            // Render Main List (Podium Style)
             const mainDiv = document.getElementById('mainDonorList');
             mainDiv.innerHTML = '';
             
             if(mainListArray.length === 0) {
                 mainDiv.innerHTML = '<div style="text-align:center; padding:20px; color:#64748b;">কোনো অনুদান নেই।</div>';
             } else {
-                // --- 1. টপ ৩ জনের পোডিয়াম (Podium) তৈরি ---
+                // পোডিয়াম (Top 3)
                 let podiumHtml = '<div class="podium-container">';
-                
-                // একটি পোডিয়াম ব্লক তৈরির ফাংশন
                 const getPodiumBlock = (user, rankCls, rankNum) => {
-                    if(!user) return '<div class="podium-box"></div>'; // যদি ৩ জনের কম ডোনার থাকে
+                    if(!user) return '<div class="podium-box"></div>';
                     return `
                         <div class="podium-box ${rankCls}">
                             <img src="${user.photo}" class="podium-avatar">
@@ -982,19 +1206,17 @@ if (isNaN(amount) || amount <= 0) {
                     `;
                 };
 
-                // সাজানোর নিয়ম: বামে ২য়, মাঝে ১ম, ডানে ৩য়
                 podiumHtml += getPodiumBlock(mainListArray[1], 'rank-2', '2');
                 podiumHtml += getPodiumBlock(mainListArray[0], 'rank-1', '1');
                 podiumHtml += getPodiumBlock(mainListArray[2], 'rank-3', '3');
-                
                 podiumHtml += '</div>';
 
-                // --- 2. বাকিদের সাধারণ লিস্ট (৪র্থ থেকে শুরু) ---
-                let listHtml = '<div class="normal-list-container">';
-                for(let i = 3; i < mainListArray.length; i++) {
-                    let u = mainListArray[i];
-                    let bdRank = engToBdNum(i + 1);
-                    listHtml += `
+                // বাকি লিস্ট (৪র্থ থেকে ২০তম)
+let listHtml = '<div class="normal-list-container">';
+for(let i = 3; i < mainListArray.length; i++) {
+    let u = mainListArray[i];
+    let bdRank = i + 1;                // <---- কনভার্ট মুছে শুধু i+1 দেওয়া হলো
+    listHtml += `
                         <div class="normal-list-item">
                             <div style="display: flex; align-items: center; gap: 15px;">
                                 <span class="n-rank">${bdRank}</span>
@@ -1008,73 +1230,112 @@ if (isNaN(amount) || amount <= 0) {
                     `;
                 }
                 listHtml += '</div>';
-
-                // সব একসাথে পেজে দেখানো
                 mainDiv.innerHTML = podiumHtml + listHtml;
             }
+        });
 
-            // Generate HTML for Target Popup
-            let popupHtml = `<div style="font-size:13px; color:#64748b; margin-bottom:15px;">বর্তমান লক্ষ্যমাত্রায় যারা শরিক হয়েছেন (এই টাকা মূল তালিকাতেও যোগ হয়েছে)</div><div style="max-height: 50vh; overflow-y: auto; text-align: left; padding-right: 5px;">`;
-            
-            if(targetListArray.length === 0) {
-                popupHtml += '<div style="text-align:center; padding:20px; font-weight:bold;">এখনো কেউ শরিক হননি।</div>';
-            } else {
-                targetListArray.forEach(u => {
-                    popupHtml += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <img src="${u.photo}" style="width:40px; height:40px; border-radius: 50%; object-fit: cover;">
-                                <h4 style="margin: 0; font-size:15px; color: #1e293b;">${u.name}</h4>
-                            </div>
-                            <div style="font-size:16px; font-weight:700; color:#f59e0b;">৳${engToBdNum(u.targetAmount.toLocaleString())}</div>
-                        </div>
-                    `;
-                });
-            }
-            popupHtml += `</div>`;
-            window.targetHtmlData = popupHtml; // পপআপে দেখানোর জন্য সেভ করা হলো
+        // ========================================================
+        // ২. লাইভ টিকার লজিক (সর্বশেষ ৫ জনের নাম, ১২ ঘণ্টার হিসাব)
+        // ========================================================
+        const recentQuery = query(
+            collection(db, "donations"), 
+            orderBy("timestamp", "desc"), 
+            limit(30) // ৩০টি আনবে (সেফটির জন্য)
+        );
 
-            // --- Live Ticker Logic ---
-            if(recentApproved.length > 0) {
-                // সময়ের ভিত্তিতে সবচেয়ে নতুনগুলো আগে আনা হলো
-                recentApproved.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
+        onSnapshot(recentQuery, (snapshot) => {
+            let recentApproved = [];
+            const currentTime = new Date().getTime();
+            const tickerTimeLimit = 12 * 60 * 60 * 1000; // ১২ ঘণ্টা (সবচেয়ে বেস্ট)
+
+            snapshot.forEach(doc => {
+                const d = doc.data();
                 
-                // সর্বশেষ ৫ জনের নাম দেখানো হবে
-                let top5 = recentApproved.slice(0, 5); 
-                let tickerString = top5.map(u => `<span style="color:#10b981; font-size:10px;"><i class="fas fa-circle"></i></span> আলহামদুলিল্লাহ, মাত্রই <b>${u.name}</b> <span style="color:#fff;">৳${engToBdNum(u.amount.toLocaleString())}</span> অনুদান দিয়েছেন `).join("&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;");
+                // চেক করা হচ্ছে স্ট্যাটাস approved কিনা এবং ১২ ঘণ্টার মধ্যে কিনা
+                if (d.status === "approved" && d.timestamp) {
+                    if (currentTime - d.timestamp.toMillis() <= tickerTimeLimit) {
+                        recentApproved.push(d);
+                    }
+                }
+            });
+
+            // শুধুমাত্র সর্বশেষ ৫ জনকে দেখানোর জন্য
+            let top5 = recentApproved.slice(0, 5);
+
+            if(top5.length > 0) {
+                let tickerString = top5.map(u => 
+                    `<span style="color:#10b981; font-size:10px;"><i class="fas fa-circle"></i></span> আলহামদুলিল্লাহ, মাত্রই <b>${u.name}</b> <span style="color:#fff;">৳${engToBdNum(u.amount.toLocaleString())}</span> অনুদান দিয়েছেন `
+                ).join("&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;");
                 
                 document.getElementById('tickerText').innerHTML = tickerString;
                 document.getElementById('liveTickerWrap').style.display = 'flex';
 
-                // --- স্পিড কন্ট্রোল করার নতুন কোড ---
+                // অ্যানিমেশন স্পিড কন্ট্রোল
                 setTimeout(() => {
                     let tickerEl = document.getElementById('tickerText');
-                    let textWidth = tickerEl.offsetWidth; 
-                    
-                    // এখানে 50 হচ্ছে স্পিড। আপনি চাইলে এই সংখ্যা বাড়িয়ে (যেমন: 70) স্পিড ফাস্ট করতে পারেন বা কমিয়ে (যেমন: 30) স্লো করতে পারেন।
-                    let speed = 50; 
-                    
-                    let duration = textWidth / speed;
-                    tickerEl.style.animationDuration = duration + 's';
+                    if(tickerEl) {
+                        let textWidth = tickerEl.offsetWidth; 
+                        let speed = 50; // স্পিড কন্ট্রোলার
+                        let duration = textWidth / speed;
+                        tickerEl.style.animationDuration = duration + 's';
+                    }
                 }, 100);
-                // ------------------------------------
-
             } else {
+                // ১২ ঘণ্টার মধ্যে কেউ না দিলে বা ডাটা না থাকলে টিকার হাইড হয়ে থাকবে
                 document.getElementById('liveTickerWrap').style.display = 'none';
             }
-            // -------------------------
-
         });
+        
 
-        // পপআপ ওপেন করার ফাংশন
-        window.showTargetPopup = function() {
-            Swal.fire({
-                title: `<div style="color: #d97706; font-size: 18px; font-weight: 800; line-height: 1.4;"><i class="fas fa-bullseye"></i> ${window.targetReasonGlobal}</div>`,
-                html: window.targetHtmlData,
-                showCloseButton: true,
-                showConfirmButton: false,
-                customClass: { popup: 'rounded-2xl' }
-            });
+        // ৩. টার্গেট পপআপের ডাটা (Lazy Load - Read Cost বাঁচানোর জন্য)
+        window.showTargetPopup = async function() {
+            // ইউজার ক্লিক করলে প্রথমে লোডিং দেখাবে
+            Swal.fire({ title: 'লোড হচ্ছে...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+            try {
+                // ফায়ারবেস থেকে ডাটা শুধু একবার টানবে (onSnapshot এর বদলে getDocs)
+                const q = query(collection(db, "donations"), where("isTargetDonation", "==", true));
+                const snapshot = await getDocs(q);
+                
+                let targetUsers = {};
+                snapshot.forEach(doc => {
+                    let d = doc.data();
+                    if(d.status === 'approved' && d.targetSessionId === currentTargetSessionId) {
+                        if(!targetUsers[d.mobile]) { targetUsers[d.mobile] = { name: d.name, photo: d.photo, targetAmount: 0 }; }
+                        targetUsers[d.mobile].targetAmount += d.amount;
+                    }
+                });
+
+                let targetListArray = Object.values(targetUsers).sort((a, b) => b.targetAmount - a.targetAmount);
+                let popupHtml = `<div style="font-size:13px; color:#64748b; margin-bottom:15px;">বর্তমান লক্ষ্যমাত্রায় যারা শরিক হয়েছেন (এই টাকা মূল তালিকাতেও যোগ হয়েছে)</div><div style="max-height: 50vh; overflow-y: auto; text-align: left; padding-right: 5px;">`;
+                
+                if(targetListArray.length === 0) {
+                    popupHtml += '<div style="text-align:center; padding:20px; font-weight:bold;">এখনো কেউ শরিক হননি।</div>';
+                } else {
+                    targetListArray.forEach(u => {
+                        popupHtml += `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <img src="${u.photo}" style="width:40px; height:40px; border-radius: 50%; object-fit: cover;">
+                                    <h4 style="margin: 0; font-size:15px; color: #1e293b;">${u.name}</h4>
+                                </div>
+                                <div style="font-size:16px; font-weight:700; color:#f59e0b;">৳${engToBdNum(u.targetAmount.toLocaleString())}</div>
+                            </div>`;
+                    });
+                }
+                popupHtml += `</div>`;
+
+                // লোডিং শেষ করে পপআপ দেখানো
+                Swal.fire({
+                    title: `<div style="color: #d97706; font-size: 18px; font-weight: 800; line-height: 1.4;"><i class="fas fa-bullseye"></i> ${window.targetReasonGlobal}</div>`,
+                    html: popupHtml,
+                    showCloseButton: true,
+                    showConfirmButton: false,
+                    customClass: { popup: 'rounded-2xl' }
+                });
+            } catch(err) {
+                Swal.fire('ত্রুটি', 'ডাটা লোড করা যায়নি।', 'error');
+            }
         };
 
         // Copy Number
@@ -1085,7 +1346,71 @@ if (isNaN(amount) || amount <= 0) {
                 Swal.fire({icon: 'success', title: 'কপি হয়েছে!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
             });
         };
+ // খরচের বিস্তারিত ভাউচার পপআপ
+        window.showExpenseDetails = async function() {
+            Swal.fire({ title: 'ভাউচার লোড হচ্ছে...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
+            try {
+                const q = query(collection(db, "expenses"), orderBy("timestamp", "desc"));
+                const snapshot = await getDocs(q);
+                
+                let expenseList = [];
+                let totalExp = 0;
+                
+                snapshot.forEach(doc => {
+                    let d = doc.data();
+                    expenseList.push(d);
+                    totalExp += d.amount || 0;
+                });
+
+                let popupHtml = `<div style="font-size:12px; color:#64748b; margin-bottom:15px; text-align:center;">ফান্ডের স্বচ্ছতা নিশ্চিত করতে খরচের বিস্তারিত ভাউচার নিচে দেওয়া হলো</div><div style="max-height: 50vh; overflow-y: auto; text-align: left; padding-right: 5px;">`;
+                
+                if(expenseList.length === 0) {
+                    popupHtml += '<div style="text-align:center; padding:20px; font-weight:bold; color: #ef4444;">এখনো কোনো খরচ এন্ট্রি করা হয়নি।</div>';
+                } else {
+                    expenseList.forEach((ex, index) => {
+                        let dateObj = ex.timestamp ? ex.timestamp.toDate() : new Date();
+                        let dateStr = dateObj.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' });
+                        
+                        popupHtml += `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #fef2f2; border-radius: 12px; border: 1px solid #fecaca; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                    <div style="background: #ef4444; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 11px; font-weight: bold; flex-shrink: 0; margin-top: 2px;">
+                                        ${engToBdNum(index + 1)}
+                                    </div>
+                                    <div>
+                                        <h4 style="margin: 0; font-size:14px; color: #1e293b; font-weight: 700; line-height: 1.3;">${ex.reason}</h4>
+                                        <div style="font-size: 11px; color: #ef4444; margin-top: 4px;"><i class="far fa-calendar-alt"></i> ${dateStr}</div>
+                                    </div>
+                                </div>
+                                <div style="font-size:15px; font-weight:800; color:#ef4444; flex-shrink: 0;">-৳${engToBdNum(ex.amount.toLocaleString())}</div>
+                            </div>`;
+                    });
+                }
+                popupHtml += `</div>`;
+                
+                if(expenseList.length > 0) {
+                    popupHtml += `
+                        <div style="margin-top: 15px; padding: 12px; background: #ef4444; color: white; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);">
+                            <span>সর্বমোট খরচ:</span>
+                            <span style="font-size: 18px;">৳${engToBdNum(totalExp.toLocaleString())}</span>
+                        </div>
+                    `;
+                }
+
+                Swal.fire({
+                    title: `<div style="color: #ef4444; font-size: 18px; font-weight: 800; line-height: 1.4;"><i class="fas fa-file-invoice-dollar"></i> খরচের বিস্তারিত হিসাব</div>`,
+                    html: popupHtml,
+                    showCloseButton: true,
+                    showConfirmButton: false,
+                    customClass: { popup: 'rounded-2xl' }
+                });
+            } catch(err) {
+                console.error(err);
+                Swal.fire('ত্রুটি', 'খরচের ডাটা লোড করা যায়নি।', 'error');
+            }
+        };
+        
         // Initialization
         checkAuth();
 
