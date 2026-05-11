@@ -80,11 +80,11 @@
         .logout-btn { background: #ef4444; color: white; border: none; padding: 4px 10px; border-radius: 20px; cursor: pointer; font-size: 11px; }
 
        .header-title { 
-    font-family: 'Galada', cursive; /* নতুন স্টাইলিশ ফন্ট */
-    font-size: 34px; /* ফন্ট সাইজ একটু বড় করা হয়েছে */
-    margin: 20px 0 55px 0; 
+    font-family: 'Galada', cursive;
+    font-size: 25px; 
+    margin: 10px 0 20px 0; /* এখানে মার্জিন কমানো হয়েছে */
     font-weight: normal; 
-    color: #fde047; /* সোনালী কালার */
+    color: #fde047; 
     letter-spacing: 1px;
     
     /* 3D বর্ডার এবং গ্লো ইফেক্ট */
@@ -195,8 +195,8 @@
         .history-meta span { display: flex; align-items: center; gap: 5px; }
         
         /* 4 Tabs Mobile Fix */
-        .tab-btn { padding: 10px 5px; font-size: 14px; flex-direction: column; gap: 4px; }
-        .tab-btn i { font-size: 18px; }   
+        .tab-btn { padding: 6px 5px; font-size: 12px; flex-direction: column; gap: 2px; }
+        .tab-btn i { font-size: 15px; margin-bottom: 2px; }
         /* ব্যাজ (বাতিল হয়েছে/গৃহীত হয়েছে) এর স্টাইল ছোট করা হলো */
         .status-badge { 
             padding: 3px 8px; /* চারদিকের বর্ডার/প্যাডিং কমানো হয়েছে */
@@ -570,72 +570,90 @@
                         আলহামদুলিল্লাহ, লক্ষ্যমাত্রার কাজ সম্পন্ন হয়েছে। এখন মূল তহবিলে অনুদান জমা হচ্ছে।
                     </div>
                 </div>
-
-                <div class="card">
-    <h2 class="card-title"><i class="fas fa-wallet"></i> যেভাবে টাকা পাঠাবেন</h2>
-    
-    <!-- নতুন যোগ করা মেসেজ -->
-    <div style="background: #e0f2fe; color: #0369a1; padding: 12px 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border-left: 4px solid #0ea5e9; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;">
-        <i class="fas fa-info-circle" style="margin-top: 3px; font-size: 16px;"></i>
-        <div>
-    নিচের যেকোনো নম্বরে আপনার সুবিধামতো <b>Send Money</b> সম্পন্ন করুন। এরপর উপরের <b style="color: var(--primary);"><i class="fas fa-hand-holding-heart"></i> অনুদান</b> ট্যাবে গিয়ে ফর্মটি পূরণ করে আপনার জমার তথ্যটি নিশ্চিত করুন।
-</div>
-    </div>
-
-    <div class="payment-grid">
-        <div class="payment-box">
-                            <img src="https://freelogopng.com/images/all_img/1656234745bkash-app-logo-png.png" style="height:35px; margin-bottom:5px;">
-                            <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
-                                <b id="bkashNumShow">...</b>
-                                <button class="copy-btn" onclick="copyNum('bkashNumShow', this)"><i class="far fa-copy"></i></button>
-                            </div>
-                        </div>
-                        <div class="payment-box">
-                            <img src="https://freelogopng.com/images/all_img/1679248787Nagad-Logo.png" style="height:35px; margin-bottom:5px;">
-                            <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
-                                <b id="nagadNumShow">...</b>
-                                <button class="copy-btn" onclick="copyNum('nagadNumShow', this)"><i class="far fa-copy"></i></button>
-                            </div>
-                        </div>
-                        <div class="payment-box">
-                            <img src="https://i.ibb.co.com/7x267kjS/1773517273822.png" style="height:35px; margin-bottom:5px;">
-                            <div style="display:flex; justify-content:center; gap:10px; align-items:center;">
-                                <b id="rocketNumShow">...</b>
-                                <button class="copy-btn" onclick="copyNum('rocketNumShow', this)"><i class="far fa-copy"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- ২. অনুদান দিন ট্যাব -->
             <div id="donate" class="tab-content">
-                <div class="card">
-                    <h2 class="card-title"><i class="fas fa-paper-plane"></i> অনুদান প্রদান করুন</h2>
-                    <div style="background: #f0fdf4; padding: 12px; border-left: 4px solid var(--primary); border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
-                        <i class="fas fa-user-check"></i> <span id="donateAsName">...</span> হিসেবে অনুদান দিচ্ছেন।
+                
+                <!-- পুরো সেকশনটি একটি কার্ডের ভেতরে আনা হয়েছে যাতে জায়গা বাঁচে -->
+                <div class="card" style="padding: 20px 15px;">
+                    
+                    <h2 class="card-title" style="margin-bottom: 12px; font-size: 18px;"><i class="fas fa-paper-plane"></i> অনুদান প্রদান করুন</h2>
+                    
+                    <!-- খুব ছোট করে দিকনির্দেশনা -->
+                    <!-- দিকনির্দেশনা -->
+<div style="background: #e0f2fe; color: #0369a1; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; border-left: 3px solid #0ea5e9; display: flex; align-items: flex-start; gap: 8px;">
+    <i class="fas fa-info-circle" style="margin-top: 3px;"></i>
+    <div>প্রথমে নিচের যেকোনো নম্বরে আপনার সুবিধামতো <b>Send Money</b> সম্পন্ন করুন। এরপর নিচের ফর্মটি পূরণ করে আপনার জমার তথ্য নিশ্চিত করুন।</div>
+</div>
+
+<!-- সতর্কতা (খরচের বিষয়) -->
+<div style="background: #fef2f2; color: #991b1b; padding: 8px 12px; border-radius: 6px; margin-bottom: 15px; font-size: 12px; border-left: 3px solid #ef4444; display: flex; align-items: flex-start; gap: 8px; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.05);">
+    <i class="fas fa-exclamation-triangle" style="margin-top: 2px; color: #ef4444;"></i>
+    <div><b>লক্ষ্য করুন:</b> 'টাকার পরিমাণ' এর ঘরে শুধুমাত্র আপনার <b>মূল অনুদানের</b> পরিমাণ লিখবেন। সেন্ড মানি বা ক্যাশআউট খরচের টাকা এখানে যুক্ত করবেন না।</div>
+</div>
+
+                    <!-- স্লিম ও কমপ্যাক্ট পেমেন্ট নাম্বার লিস্ট -->
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="https://freelogopng.com/images/all_img/1656234745bkash-app-logo-png.png" style="height: 22px;">
+                                <b id="bkashNumShow" style="font-size: 14px; letter-spacing: 0.5px;">...</b>
+                            </div>
+                            <button class="copy-btn" style="padding: 4px 10px; font-size: 12px;" onclick="copyNum('bkashNumShow', this)"><i class="far fa-copy"></i> কপি</button>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="https://freelogopng.com/images/all_img/1679248787Nagad-Logo.png" style="height: 22px;">
+                                <b id="nagadNumShow" style="font-size: 14px; letter-spacing: 0.5px;">...</b>
+                            </div>
+                            <button class="copy-btn" style="padding: 4px 10px; font-size: 12px;" onclick="copyNum('nagadNumShow', this)"><i class="far fa-copy"></i> কপি</button>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 10px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="https://i.ibb.co.com/7x267kjS/1773517273822.png" style="height: 22px;">
+                                <b id="rocketNumShow" style="font-size: 14px; letter-spacing: 0.5px;">...</b>
+                            </div>
+                            <button class="copy-btn" style="padding: 4px 10px; font-size: 12px;" onclick="copyNum('rocketNumShow', this)"><i class="far fa-copy"></i> কপি</button>
+                        </div>
+
+                    </div>
+
+                    <!-- একটি হালকা বর্ডার দিয়ে ফর্ম আলাদা করা হলো -->
+                    <div style="border-top: 2px dashed #e2e8f0; margin-bottom: 15px;"></div>
+
+                    <!-- অনুদান ফর্ম -->
+                    <div style="background: #f0fdf4; padding: 8px; border-left: 3px solid var(--primary); border-radius: 6px; margin-bottom: 15px; font-size: 12px;">
+                        <i class="fas fa-user-check"></i> <span id="donateAsName" style="font-weight:bold;">...</span> হিসেবে জমা দিচ্ছেন।
                     </div>
                     
                     <form id="donationForm">
-                        <div class="form-group">
-                            <label><i class="fas fa-money-bill-wave"></i> টাকার পরিমাণ (৳)</label>
-                            <input type="number" id="donationAmount" class="form-control" required placeholder="ইংরেজিতে লিখুন (যেমন: 5000)">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label style="font-size: 13px; margin-bottom: 4px;"><i class="fas fa-money-bill-wave"></i> টাকার পরিমাণ (৳)</label>
+                            <input type="number" id="donationAmount" class="form-control" style="padding: 10px;" required placeholder="ইংরেজিতে লিখুন (যেমন: 5000)">
                         </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-wallet"></i> পাঠানোর মাধ্যম</label>
-                            <select id="paymentMethod" class="form-control">
+                        
+                        <div style="form-group" style="margin-bottom: 12px;">
+                            <label style="font-size: 13px; margin-bottom: 4px;"><i class="fas fa-wallet"></i> পাঠানোর মাধ্যম</label>
+                            <select id="paymentMethod" class="form-control" style="padding: 10px; margin-bottom: 12px;">
                                 <option value="বিকাশ">বিকাশ</option>
                                 <option value="নগদ">নগদ</option>
                                 <option value="রকেট">রকেট</option>
                                 <option value="ক্যাশ">সরাসরি ক্যাশ</option>
                             </select>
                         </div>
-                        <div class="form-group" id="trxGroup">
-                            <label><i class="fas fa-hashtag"></i> TrxID / যে নম্বর থেকে পাঠিয়েছেন</label>
-                            <input type="text" id="trxId" class="form-control" required placeholder="যাচাইয়ের জন্য দিন">
+                        
+                        <div class="form-group" id="trxGroup" style="margin-bottom: 15px;">
+                            <label style="font-size: 13px; margin-bottom: 4px;"><i class="fas fa-hashtag"></i> TrxID / যে নম্বর থেকে পাঠিয়েছেন</label>
+                            <input type="text" id="trxId" class="form-control" style="padding: 10px;" required placeholder="যাচাইয়ের জন্য দিন">
                         </div>
-                        <button type="submit" class="btn-submit" id="donateBtn"><i class="fas fa-check-circle"></i> জমা দিন</button>
+                        
+                        <button type="submit" class="btn-submit" id="donateBtn" style="padding: 12px; font-size: 16px;"><i class="fas fa-check-circle"></i> জমা দিন</button>
                     </form>
+
                 </div>
             </div>
 <!-- ৪. অনুদান হিস্ট্রি ট্যাব (নতুন) -->
